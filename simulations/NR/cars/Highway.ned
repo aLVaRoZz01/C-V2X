@@ -74,12 +74,12 @@ network Highway
         gNodeB2: gNodeB {
             @display("p=391,313;is=vl");
         }
-        //gNodeB3: gNodeB {
-        //    @display("p=553,377;is=vl");
-        //}
-        //gNodeB4: gNodeB {
-        //    @display("p=660,296;is=vl");
-        //}
+        gNodeB3: gNodeB {
+            @display("p=553,377;is=vl");
+        }
+        gNodeB4: gNodeB {
+            @display("p=660,296;is=vl");
+        }
         //# submodule vector to store all cars - will be filled dynamically during simulations
         car[0]: NRCar {
 
@@ -90,11 +90,11 @@ network Highway
         router.pppg++ <--> Eth10G <--> upf.filterGate;
         upf.pppg++ <--> Eth10G <--> gNodeB1.ppp;
         upf.pppg++ <--> Eth10G <--> gNodeB2.ppp;
-        //upf.pppg++ <--> Eth10G <--> gNodeB3.ppp;
-        //upf.pppg++ <--> Eth10G <--> gNodeB4.ppp;
+        upf.pppg++ <--> Eth10G <--> gNodeB3.ppp;
+        upf.pppg++ <--> Eth10G <--> gNodeB4.ppp;
 
         //# X2 connections
         gNodeB1.x2++ <--> Eth10G <--> gNodeB2.x2++;
-        //gNodeB3.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB3.x2++ <--> Eth10G <--> gNodeB4.x2++;
 }
 
