@@ -29,7 +29,7 @@ import org.car2x.veins.subprojects.veins_inet.VeinsInetManager;
 network Highway
 {
     parameters:
-        @display("bgb=5000,5000;bgu=m");
+        @display("bgb=3000,1500;bgu=m;bgi=background/ciu_wm,s");
 
         double playgroundSizeX = 200000; // x size of the area the nodes are in (in meters)
         double playgroundSizeY = 200000; // y size of the area the nodes are in (in meters)
@@ -37,64 +37,73 @@ network Highway
     submodules:
 
         routingRecorder: RoutingTableRecorder {
-            @display("p=109.48,2534.14;is=s");
+            @display("p=45.08,74.06;is=s");
         }
         configurator: Ipv4NetworkConfigurator {
-            @display("p=109.48,2584.05");
+            @display("p=45.08,125.58");
             config = xmldoc("demo.xml");
         }
 
         //# Veins manager module
         veinsManager: VeinsInetManager {
-            @display("p=109.48,2687.09;is=s");
+            @display("p=45.08,228.62;is=s");
         }
 
         //# LTE modules
         channelControl: LteChannelControl {
-            @display("p=109.48,2485.84;is=s");
+            @display("p=45.08,27.37;is=s");
         }
         binder: Binder {
-            @display("p=109.48,2635.57;is=s");
+            @display("p=45.08,177.1;is=s");
         }
         carrierAggregation: CarrierAggregation {
-            @display("p=109.48,2719.29;is=s");
+            @display("p=45.08,260.82;is=s");
         }
         server: StandardHost {
-            @display("p=2258.83,2880.29;is=n;i=device/server");
+            @display("p=2840.04,445.97;is=n;i=device/server");
         }
         router: Router {
-            @display("p=1788.71,2878.68;i=device/smallrouter");
+            @display("p=2202.48,454.02;i=device/smallrouter");
         }
         upf: Upf {
-            @display("p=1083.53,2881.9");
+            @display("p=1497.3,465.29");
         }
         gNodeB1: gNodeB {
-            @display("p=623.07,2914.1;is=n");
+            @display("p=1605.17,1362.06;is=n");
         }
         gNodeB2: gNodeB {
-            @display("p=623.07,3133.06;is=n");
+            @display("p=1524.67,1405.53;is=n");
         }
         gNodeB3: gNodeB {
-            @display("p=1127,3896.2;is=vl");
+            @display("p=2004.45,758.31;is=n");
         }
         gNodeB4: gNodeB {
-            @display("p=1977.08,3408.37;is=vl");
+            @display("p=1872.43,339.71;is=n");
+        }
+        gNodeB5: gNodeB {
+            @display("p=2437.54,1362.06;is=n");
+        }
+        gNodeB6: gNodeB {
+            @display("p=2590.49,1151.15;is=n");
         }
         //# submodule vector to store all cars - will be filled dynamically during simulations
         car[0]: NRCar {
 
-            @display("p=755.09,2622.69;i=-");
+            @display("p=61.18,402.5;i=-");
         }
     connections allowunconnected:
-        server.pppg++ <--> Eth10G <--> router.pppg++;
-        router.pppg++ <--> Eth10G <--> upf.filterGate;
-        upf.pppg++ <--> Eth10G <--> gNodeB1.ppp;
-        upf.pppg++ <--> Eth10G <--> gNodeB2.ppp;
-        upf.pppg++ <--> Eth10G <--> gNodeB3.ppp;
-        upf.pppg++ <--> Eth10G <--> gNodeB4.ppp;
+        server.pppg++ <--> Eth10G { @display("ls=#204A87,3"); } <--> router.pppg++;
+        router.pppg++ <--> Eth10G { @display("ls=#204A87,3"); } <--> upf.filterGate;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,1"); } <--> gNodeB1.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,1"); } <--> gNodeB2.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8F5902,1"); } <--> gNodeB3.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8F5902,1"); } <--> gNodeB4.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#EF2929,1"); } <--> gNodeB5.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#EF2929,1"); } <--> gNodeB6.ppp;
 
         //# X2 connections
-        gNodeB1.x2++ <--> Eth10G <--> gNodeB2.x2++;
-        gNodeB3.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB1.x2++ <--> Eth10G { @display("ls=#8AE234,1,da"); } <--> gNodeB2.x2++;
+        gNodeB3.x2++ <--> Eth10G { @display("ls=#8F5902,1,da"); } <--> gNodeB4.x2++;
+        gNodeB5.x2++ <--> Eth10G { @display("ls=#EF2929,1,da"); } <--> gNodeB6.x2++;
 }
 
