@@ -1,0 +1,7 @@
+<configuration>
+    <input>
+        <net-file value="traciTest.net.xml"/>
+        <route-files value="traciTest.rou.xml"/>
+        <additional-files value="traciTest.add.xml"/>
+    </input>
+</configuration>

@@ -102,8 +102,46 @@ network Highway
         upf.pppg++ <--> Eth10G { @display("ls=#EF2929,1"); } <--> gNodeB6.ppp;
 
         //# X2 connections
-        gNodeB1.x2++ <--> Eth10G { @display("ls=#8AE234,1,da"); } <--> gNodeB2.x2++;
-        gNodeB3.x2++ <--> Eth10G { @display("ls=#8F5902,1,da"); } <--> gNodeB4.x2++;
-        gNodeB5.x2++ <--> Eth10G { @display("ls=#EF2929,1,da"); } <--> gNodeB6.x2++;
+//        gNodeB1.x2++ <--> Eth10G { @display("ls=#8AE234,1,da"); } <--> gNodeB2.x2++;
+//        gNodeB3.x2++ <--> Eth10G { @display("ls=#8F5902,1,da"); } <--> gNodeB4.x2++;
+//        gNodeB5.x2++ <--> Eth10G { @display("ls=#EF2929,1,da"); } <--> gNodeB6.x2++;
+
+        gNodeB1.x2++ <--> Eth10G <--> gNodeB2.x2++;
+        gNodeB1.x2++ <--> Eth10G <--> gNodeB3.x2++;
+        gNodeB1.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB1.x2++ <--> Eth10G <--> gNodeB5.x2++;
+        gNodeB1.x2++ <--> Eth10G <--> gNodeB6.x2++;
+
+        gNodeB2.x2++ <--> Eth10G <--> gNodeB1.x2++;
+        gNodeB2.x2++ <--> Eth10G <--> gNodeB3.x2++;
+        gNodeB2.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB2.x2++ <--> Eth10G <--> gNodeB5.x2++;
+        gNodeB2.x2++ <--> Eth10G <--> gNodeB6.x2++;
+
+        gNodeB3.x2++ <--> Eth10G <--> gNodeB1.x2++;
+        gNodeB3.x2++ <--> Eth10G <--> gNodeB2.x2++;
+        gNodeB3.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB3.x2++ <--> Eth10G <--> gNodeB5.x2++;
+        gNodeB3.x2++ <--> Eth10G <--> gNodeB6.x2++;
+
+        gNodeB4.x2++ <--> Eth10G <--> gNodeB1.x2++;
+        gNodeB4.x2++ <--> Eth10G <--> gNodeB2.x2++;
+        gNodeB4.x2++ <--> Eth10G <--> gNodeB3.x2++;
+        gNodeB4.x2++ <--> Eth10G <--> gNodeB5.x2++;
+        gNodeB4.x2++ <--> Eth10G <--> gNodeB6.x2++;
+
+        gNodeB5.x2++ <--> Eth10G <--> gNodeB1.x2++;
+        gNodeB5.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB2.x2++;
+        gNodeB5.x2++ <--> Eth10G <--> gNodeB3.x2++;
+        gNodeB5.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB5.x2++ <--> Eth10G <--> gNodeB6.x2++;
+
+        gNodeB6.x2++ <--> Eth10G <--> gNodeB1.x2++;
+        gNodeB6.x2++ <--> Eth10G <--> gNodeB2.x2++;
+        gNodeB6.x2++ <--> Eth10G <--> gNodeB3.x2++;
+        gNodeB6.x2++ <--> Eth10G <--> gNodeB4.x2++;
+        gNodeB6.x2++ <--> Eth10G <--> gNodeB5.x2++;
+
+
 }
 
