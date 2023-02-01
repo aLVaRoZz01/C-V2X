@@ -92,55 +92,55 @@ network Highway
             @display("p=61.18,402.5;i=-");
         }
     connections allowunconnected:
-        server.pppg++ <--> Eth10G { @display("ls=#204A87,3"); } <--> router.pppg++;
-        router.pppg++ <--> Eth10G { @display("ls=#204A87,3"); } <--> upf.filterGate;
-        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,1"); } <--> gNodeB1.ppp;
-        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,1"); } <--> gNodeB2.ppp;
-        upf.pppg++ <--> Eth10G { @display("ls=#8F5902,1"); } <--> gNodeB3.ppp;
-        upf.pppg++ <--> Eth10G { @display("ls=#8F5902,1"); } <--> gNodeB4.ppp;
-        upf.pppg++ <--> Eth10G { @display("ls=#EF2929,1"); } <--> gNodeB5.ppp;
-        upf.pppg++ <--> Eth10G { @display("ls=#EF2929,1"); } <--> gNodeB6.ppp;
+        server.pppg++ <--> Eth10G { @display("ls=#204A87,4"); } <--> router.pppg++;
+        router.pppg++ <--> Eth10G { @display("ls=#204A87,4"); } <--> upf.filterGate;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,2"); } <--> gNodeB1.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,2"); } <--> gNodeB2.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,2"); } <--> gNodeB3.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,2"); } <--> gNodeB4.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,2"); } <--> gNodeB5.ppp;
+        upf.pppg++ <--> Eth10G { @display("ls=#8AE234,2"); } <--> gNodeB6.ppp;
 
         //# X2 connections
 //        gNodeB1.x2++ <--> Eth10G { @display("ls=#8AE234,1,da"); } <--> gNodeB2.x2++;
 //        gNodeB3.x2++ <--> Eth10G { @display("ls=#8F5902,1,da"); } <--> gNodeB4.x2++;
 //        gNodeB5.x2++ <--> Eth10G { @display("ls=#EF2929,1,da"); } <--> gNodeB6.x2++;
 
-        gNodeB1.x2++ <--> Eth10G <--> gNodeB2.x2++;
-        gNodeB1.x2++ <--> Eth10G <--> gNodeB3.x2++;
-        gNodeB1.x2++ <--> Eth10G <--> gNodeB4.x2++;
-        gNodeB1.x2++ <--> Eth10G <--> gNodeB5.x2++;
-        gNodeB1.x2++ <--> Eth10G <--> gNodeB6.x2++;
+        gNodeB1.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB2.x2++;
+        gNodeB1.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB3.x2++;
+        gNodeB1.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB4.x2++;
+        gNodeB1.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB5.x2++;
+        gNodeB1.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB6.x2++;
 
-        gNodeB2.x2++ <--> Eth10G <--> gNodeB1.x2++;
-        gNodeB2.x2++ <--> Eth10G <--> gNodeB3.x2++;
-        gNodeB2.x2++ <--> Eth10G <--> gNodeB4.x2++;
-        gNodeB2.x2++ <--> Eth10G <--> gNodeB5.x2++;
-        gNodeB2.x2++ <--> Eth10G <--> gNodeB6.x2++;
+        gNodeB2.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB1.x2++;
+        gNodeB2.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB3.x2++;
+        gNodeB2.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB4.x2++;
+        gNodeB2.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB5.x2++;
+        gNodeB2.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB6.x2++;
 
-        gNodeB3.x2++ <--> Eth10G <--> gNodeB1.x2++;
-        gNodeB3.x2++ <--> Eth10G <--> gNodeB2.x2++;
-        gNodeB3.x2++ <--> Eth10G <--> gNodeB4.x2++;
-        gNodeB3.x2++ <--> Eth10G <--> gNodeB5.x2++;
-        gNodeB3.x2++ <--> Eth10G <--> gNodeB6.x2++;
+        gNodeB3.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB1.x2++;
+        gNodeB3.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB2.x2++;
+        gNodeB3.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB4.x2++;
+        gNodeB3.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB5.x2++;
+        gNodeB3.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB6.x2++;
 
-        gNodeB4.x2++ <--> Eth10G <--> gNodeB1.x2++;
-        gNodeB4.x2++ <--> Eth10G <--> gNodeB2.x2++;
-        gNodeB4.x2++ <--> Eth10G <--> gNodeB3.x2++;
-        gNodeB4.x2++ <--> Eth10G <--> gNodeB5.x2++;
-        gNodeB4.x2++ <--> Eth10G <--> gNodeB6.x2++;
+        gNodeB4.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB1.x2++;
+        gNodeB4.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB2.x2++;
+        gNodeB4.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB3.x2++;
+        gNodeB4.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB5.x2++;
+        gNodeB4.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB6.x2++;
 
-        gNodeB5.x2++ <--> Eth10G <--> gNodeB1.x2++;
+        gNodeB5.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB1.x2++;
         gNodeB5.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB2.x2++;
-        gNodeB5.x2++ <--> Eth10G <--> gNodeB3.x2++;
-        gNodeB5.x2++ <--> Eth10G <--> gNodeB4.x2++;
-        gNodeB5.x2++ <--> Eth10G <--> gNodeB6.x2++;
+        gNodeB5.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB3.x2++;
+        gNodeB5.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB4.x2++;
+        gNodeB5.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB6.x2++;
 
-        gNodeB6.x2++ <--> Eth10G <--> gNodeB1.x2++;
-        gNodeB6.x2++ <--> Eth10G <--> gNodeB2.x2++;
-        gNodeB6.x2++ <--> Eth10G <--> gNodeB3.x2++;
-        gNodeB6.x2++ <--> Eth10G <--> gNodeB4.x2++;
-        gNodeB6.x2++ <--> Eth10G <--> gNodeB5.x2++;
+        gNodeB6.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB1.x2++;
+        gNodeB6.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB2.x2++;
+        gNodeB6.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB3.x2++;
+        gNodeB6.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB4.x2++;
+        gNodeB6.x2++ <--> Eth10G { @display("ls=#5C3566,1,d"); } <--> gNodeB5.x2++;
 
 
 }
