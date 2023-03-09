@@ -54,31 +54,53 @@ void Navigator::initialize(int stage)
 }
 
 
+//void Navigator::handlePositionUpdate(cObject* obj)
+//{
+//
+//    /* isoto:
+//     * Commands of TraCICommandInterface::Vehicle available at:
+//     * veins-veins-5.2/src/veins/modules/mobility/traci/TraCIMobilityInterface.h y .cc
+//     * access through 'traciVehicle'
+//     *
+//     * Commands of VeinsInetMobility available at:
+//     * veins_inet/src/veins_inet/VeinsInetMobility.h y .cc
+//     * access through 'mobility'
+//     *
+//     */
+//    EV_INFO << "Entrando en handlePositionUpdate, la velocidad del coche " << carId << " es " << /*mobility->getCurrentVelocity()*/traciVehicle->getSpeed() << endl;
+//    char *vehicle = "7";
+//     /* We stop vehicle 7 at 50s and restart it again at 65s */
+//    if ((carId==vehicle)&&(simTime()==50)) {
+//        traciVehicle->setSpeed(0);
+//        EV_INFO << "Paramos vehículo " << carId << " a los " << simTime() << " segundos" << endl;
+//    }
+//    if ((carId==vehicle)&&(simTime()==65)) {
+//            traciVehicle->setSpeed(15);
+//            EV_INFO << "Arrancamos vehículo " << carId << " a los " << simTime() << " segundos" << endl;
+//    }
+//}
+
 void Navigator::handlePositionUpdate(cObject* obj)
 {
 
-    /* isoto:
-     * Commands of TraCICommandInterface::Vehicle available at:
-     * veins-veins-5.2/src/veins/modules/mobility/traci/TraCIMobilityInterface.h y .cc
-     * access through 'traciVehicle'
-     *
-     * Commands of VeinsInetMobility available at:
-     * veins_inet/src/veins_inet/VeinsInetMobility.h y .cc
-     * access through 'mobility'
-     *
-     */
-    EV_INFO << "Entrando en handlePositionUpdate, la velocidad del coche " << carId << " es " << /*mobility->getCurrentVelocity()*/traciVehicle->getSpeed() << endl;
-    char *vehicle = "7";
-     /* We stop vehicle 7 at 50s and restart it again at 65s */
-    if ((carId==vehicle)&&(simTime()==50)) {
-        traciVehicle->setSpeed(0);
-        EV_INFO << "Paramos vehículo " << carId << " a los " << simTime() << " segundos" << endl;
+
+    char *vehicle = "0";
+    std::string routeId_r;
+    std::list<std::string> roads {
+                            "1/1to1/0",
+                            "1/0to0/0"
+                        };
+    if ((carId==vehicle)&&(simTime()==35)) {
+        traciVehicle->changeVehicleRoute(roads);
+        routeId_r = traciVehicle->getRouteId();
+        EV_INFO << "la ruta del vehículo con id: " << carId << " es: " << routeId_r << endl;
+
     }
-    if ((carId==vehicle)&&(simTime()==65)) {
-            traciVehicle->setSpeed(15);
-            EV_INFO << "Arrancamos vehículo " << carId << " a los " << simTime() << " segundos" << endl;
-    }
+
+
 }
+
+
 
 
 void Navigator::receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details)
