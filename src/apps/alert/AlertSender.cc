@@ -100,6 +100,17 @@ void AlertSender::handleMessage(cMessage *msg)
 
 void AlertSender::sendAlertPacket()
 {
+
+    // Vamos a tratar de personalizar el mensaje
+
+    Packet* dataPacket = new inet::Packet("Data");
+    const char* msg = "Coche 1 la red está petada en derecho, ve por teleco \0";
+    auto data = makeShared<inet::BytesChunk>();
+    data->setBytes(reinterpret_cast<const uint8_t*>(msg), strlen(msg)+1);
+    dataPacket->insertAtBack(data);
+
+
+
     Packet* packet = new inet::Packet("Alert");
 
     auto alert = makeShared<AlertPacket>();
@@ -109,6 +120,7 @@ void AlertSender::sendAlertPacket()
     alert->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
     packet->insertAtBack(alert);
+    alertPacket->insertAtBack(dataPacket); // Agregar el paquete de datos al final del paquete de alerta
 
     EV << "AlertSender::sendAlertPacket - Sending message [" << nextSno_ << "]\n";
 
