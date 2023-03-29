@@ -7,6 +7,7 @@ import inet.applications.contract.IApp;
 simple serverNavigatorSender like IApp
 {
     parameters:
+        @class(serverNavigatorSender);
         int localPort = default(-1);
         int destPort = default(6000);
         string destAddress;

@@ -103,13 +103,13 @@ void AlertSender::sendAlertPacket()
 
     // Vamos a tratar de personalizar el mensaje
 
-    Packet* dataPacket = new inet::Packet("Data");
-    const char* msg = "Coche 1 la red está petada en derecho, ve por teleco \0";
-    auto data = makeShared<inet::BytesChunk>();
-    std::vector<uint8_t> bytes(strlen(msg));
-    std::copy(msg, msg + strlen(msg), bytes.begin());
-    data->setBytes(bytes);
-    dataPacket->insertAtBack(data);
+//    Packet* dataPacket = new inet::Packet("Data");
+//    const char* msg = "Coche 1 la red está petada en derecho, ve por teleco \0";
+//    auto data = makeShared<inet::BytesChunk>();
+//    std::vector<uint8_t> bytes(strlen(msg));
+//    std::copy(msg, msg + strlen(msg), bytes.begin());
+//    data->setBytes(bytes);
+//    dataPacket->insertAtBack(data);
 
     // Hasta aquí lo nuevo
 
@@ -122,7 +122,7 @@ void AlertSender::sendAlertPacket()
     alert->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
     packet->insertAtBack(alert);
-    packet->insertAtBack(dataPacket); // Agregar el paquete de datos al final del paquete de alerta
+//    packet->insertAtBack(dataPacket); // Agregar el paquete de datos al final del paquete de alerta
 
     EV << "AlertSender::sendAlertPacket - Sending message [" << nextSno_ << "]\n";
 

@@ -5,7 +5,7 @@
  *      Author: simu5g
  */
 
-#include "serverNavigatorReceiver.h"
+#include "apps/serverNavigator/serverNavigatorReceiver.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include "inet/common/packet/Packet.h"
 #include "inet/common/ModuleAccess.h"
@@ -36,7 +36,7 @@ void serverNavigatorReceiver::initialize(int stage)
     }
 }
 
-void serverNavigatorReceiver::handleMessageWhenUp(cMessage *msg)
+void serverNavigatorReceiver::handleMessage(cMessage *msg)
 {
 
             auto packet = check_and_cast<Packet*>(msg);

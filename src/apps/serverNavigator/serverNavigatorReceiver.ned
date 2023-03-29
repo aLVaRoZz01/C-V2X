@@ -8,6 +8,7 @@ import inet.applications.contract.IApp;
 simple serverNavigatorReceiver like IApp
 {
     parameters:
+        @class(serverNavigatorReceiver);
         int localPort = default(6000);
 
         @display("i=block/source");
