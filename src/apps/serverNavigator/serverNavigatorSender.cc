@@ -5,7 +5,8 @@
  *      Author: simu5g
  */
 
-#include "apps/serverNavigator/serverNavigatorSender.h"
+#include "../serverNavigator/serverNavigatorSender.h"
+
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include "inet/common/packet/Packet.h"
 #include "inet/common/ModuleAccess.h"

@@ -20,20 +20,20 @@
 #include <inet/networklayer/common/L3AddressResolver.h>
 #include <inet/transportlayer/contract/udp/UdpSocket.h>
 
-#include "apps/voip/VoipPacket_m.h"
+#include "apps/sNavigator/SNavigatorPacket_m.h"
 
-class VoIPReceiver : public omnetpp::cSimpleModule
+class SNavigatorReceiver : public omnetpp::cSimpleModule
 {
     inet::UdpSocket socket;
 
-    ~VoIPReceiver();
+    ~SNavigatorReceiver();
 
     int emodel_Ie_;
     int emodel_Bpl_;
     int emodel_A_;
     double emodel_Ro_;
 
-    typedef std::list<VoipPacket*> PacketsList;
+    typedef std::list<SNavigatorPacket*> PacketsList;
     PacketsList mPacketsList_;
     PacketsList mPlayoutQueue_;
     unsigned int mCurrentTalkspurt_;
