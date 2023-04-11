@@ -26,4 +26,5 @@ class SNavigatorPacket extends inet::FieldsChunk {
     simtime_t playoutTime;
     simtime_t payloadTimestamp;
     unsigned int payloadSize;
+    string navMessage;
 }
