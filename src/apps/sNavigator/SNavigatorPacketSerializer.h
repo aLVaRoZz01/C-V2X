@@ -20,7 +20,7 @@
 
 
 /**
- * Converts between VoipPacket and binary (network byte order) packet.
+ * Converts between SNavigatorPacket and binary (network byte order) packet.
  */
 class SNavigatorPacketSerializer : public inet::FieldsChunkSerializer
 {
@@ -32,4 +32,4 @@ class SNavigatorPacketSerializer : public inet::FieldsChunkSerializer
     SNavigatorPacketSerializer() : FieldsChunkSerializer() {}
 };
 
-#endif // ifndef __INET_VOIPPACKETSERIALIZER_H
+#endif // ifndef __INET_SNAVIGATORPACKETSERIALIZER_H
