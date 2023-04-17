@@ -33,6 +33,7 @@ void SNavigatorPacketSerializer::serialize(MemoryOutputStream& stream, const Ptr
     stream.writeUint64Be(sNavigatorPacket->getArrivalTime().raw());
     stream.writeUint64Be(sNavigatorPacket->getPlayoutTime().raw());
     stream.writeUint32Be(sNavigatorPacket->getPayloadSize());
+    stream.writeUint32Be(std::stoul(sNavigatorPacket->getNavMessage()));
 
     int64_t remainders = B(sNavigatorPacket->getChunkLength() - (stream.getLength() - startPosition)).get();
     if (remainders < 0)
@@ -52,6 +53,7 @@ const Ptr<Chunk> SNavigatorPacketSerializer::deserialize(MemoryInputStream& stre
     sNavigatorPacket->getArrivalTime().setRaw(stream.readUint64Be());
     sNavigatorPacket->getPlayoutTime().setRaw(stream.readUint64Be());
     sNavigatorPacket->setPayloadSize(stream.readUint32Be());
+    sNavigatorPacket->setNavMessage(std::to_string(stream.readUint32Be()).c_str());
 
     B remainders = dataLength - (stream.getPosition() - startPosition);
     ASSERT(remainders >= B(0));

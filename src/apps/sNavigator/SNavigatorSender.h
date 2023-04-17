@@ -38,6 +38,7 @@ class SNavigatorSender : public omnetpp::cSimpleModule
     int iDframe_;
     int nframesTmp_;
     int size_;
+    std::string navMessage_;
     omnetpp::simtime_t sampling_time;
 
     bool silences_;

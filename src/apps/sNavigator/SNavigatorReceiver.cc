@@ -94,7 +94,7 @@ void SNavigatorReceiver::handleMessage(cMessage *msg)
         mCurrentTalkspurt_ = voipHeader->getIDtalk();
     }
 
-    EV << "VoIPReceiver::handleMessage - Packet received: TALK[" << voipHeader->getIDtalk() << "] - FRAME[" << voipHeader->getIDframe() << " size: " << voipHeader->getChunkLength() << " bytes]\n";
+    EV << "VoIPReceiver::handleMessage - Packet received: TALK[" << voipHeader->getIDtalk() << "] - FRAME[" << voipHeader->getIDframe() << " size: " << voipHeader->getChunkLength() << " bytes]" " - MSG[" << voipHeader->getNavMessage() << "\n";
 
     // emit throughput sample
     totalRcvdBytes_ += (int)B(voipHeader->getChunkLength()).get();

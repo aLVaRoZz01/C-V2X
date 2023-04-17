@@ -59,6 +59,7 @@ void SNavigatorSender::initialize(int stage)
     localPort_ = par("localPort");
     destPort_ = par("destPort");
     silences_ = par("silences");
+    navMessage_ = "";
 
     totalSentBytes_ = 0;
     warmUpPer_ = getSimulation()->getWarmupPeriod();
@@ -174,8 +175,12 @@ void SNavigatorSender::sendVoIPPacket()
     voip->setPayloadTimestamp(simTime());
     voip->setChunkLength(B(size_));
     voip->addTag<CreationTimeTag>()->setCreationTime(simTime());
+
+    navMessage_ = "Prueba de envío";
+    voip->setNavMessage(navMessage_.c_str());
+
     packet->insertAtBack(voip);
-    EV << "VoIPSender::sendVoIPPacket - Talkspurt[" << iDtalk_-1 << "] - Sending frame[" << iDframe_ << "]\n";
+    EV << "VoIPSender::sendVoIPPacket - Talkspurt[" << iDtalk_-1 << "] - Sending frame[" << iDframe_ << "] - MSG[[" << navMessage_ << "]\n";
 
     socket.sendTo(packet, destAddress_, destPort_);
     --nframesTmp_;
