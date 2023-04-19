@@ -32,7 +32,7 @@ SNavigatorSender::~SNavigatorSender()
 
 void SNavigatorSender::initialize(int stage)
 {
-    EV << "VoIP Sender initialize: stage " << stage << endl;
+    EV << "sNavigator Sender initialize: stage " << stage << endl;
 
     cSimpleModule::initialize(stage);
 
@@ -63,7 +63,7 @@ void SNavigatorSender::initialize(int stage)
 
     totalSentBytes_ = 0;
     warmUpPer_ = getSimulation()->getWarmupPeriod();
-    voIPGeneratedThroughtput_ = registerSignal("voIPGeneratedThroughput");
+    sNavigatorGeneratedThroughtput_ = registerSignal("sNavigatorGeneratedThroughput");
 
     initTraffic_ = new cMessage("initTraffic");
     initTraffic();
@@ -74,7 +74,7 @@ void SNavigatorSender::handleMessage(cMessage *msg)
     if (msg->isSelfMessage())
     {
         if (!strcmp(msg->getName(), "selfSender"))
-            sendVoIPPacket();
+            sendsNavigatorPacket();
         else if (!strcmp(msg->getName(), "selfSource"))
             selectPeriodTime();
         else
@@ -89,11 +89,11 @@ void SNavigatorSender::initTraffic()
     if (destModule == nullptr)
     {
         // this might happen when users are created dynamically
-        EV << simTime() << "VoIPSender::initTraffic - destination " << destAddress << " not found" << endl;
+        EV << simTime() << "sNavigatorSender::initTraffic - destination " << destAddress << " not found" << endl;
 
         simtime_t offset = 0.01; // TODO check value
         scheduleAt(simTime()+offset, initTraffic_);
-        EV << simTime() << "VoIPSender::initTraffic - the node will retry to initialize traffic in " << offset << " seconds " << endl;
+        EV << simTime() << "sNavigatorSender::initTraffic - the node will retry to initialize traffic in " << offset << " seconds " << endl;
     }
     else
     {
@@ -106,7 +106,7 @@ void SNavigatorSender::initTraffic()
         if (tos != -1)
             socket.setTos(tos);
 
-        EV << simTime() << "VoIPSender::initialize - binding to port: local:" << localPort_ << " , dest: " << destAddress_.str() << ":" << destPort_ << endl;
+        EV << simTime() << "sNavigatorSender::initialize - binding to port: local:" << localPort_ << " , dest: " << destAddress_.str() << ":" << destPort_ << endl;
 
         // calculating traffic starting time
         simtime_t startTime = par("startTime");
@@ -116,71 +116,34 @@ void SNavigatorSender::initTraffic()
     }
 }
 
-void SNavigatorSender::talkspurt(simtime_t dur)
-{
-    iDtalk_++;
-    nframes_ = (ceil(dur / sampling_time));
-
-    // a talkspurt must be at least 1 frame long
-    if (nframes_ == 0)
-        nframes_ = 1;
-
-    EV << "VoIPSender::talkspurt - TALKSPURT[" << iDtalk_-1 << "] - Will be created[" << nframes_ << "] frames\n\n";
-
-    iDframe_ = 0;
-    nframesTmp_ = nframes_;
-    scheduleAt(simTime(), selfSender_);
-}
 
 void SNavigatorSender::selectPeriodTime()
 {
-    if (!isTalk_)
-    {
-        double durSil2;
-        if(silences_)
-        {
-            durSil_ = weibull(scaleSil_, shapeSil_);
-            durSil2 = round(SIMTIME_DBL(durSil_)*1000) / 1000;
-        }
-        else
-        {
-            durSil_ = durSil2 = 0;
-        }
-
-        EV << "VoIPSender::selectPeriodTime - Silence Period: " << "Duration[" << durSil_ << "/" << durSil2 << "] seconds\n";
-        scheduleAt(simTime() + durSil_, selfSource_);
-        isTalk_ = true;
-    }
-    else
-    {
-        durTalk_ = weibull(scaleTalk_, shapeTalk_);
-        double durTalk2 = round(SIMTIME_DBL(durTalk_)*1000) / 1000;
-        EV << "VoIPSender::selectPeriodTime - Talkspurt[" << iDtalk_ << "] - Duration[" << durTalk_ << "/" << durTalk2 << "] seconds\n";
-        talkspurt(durTalk_);
-        scheduleAt(simTime() + durTalk_, selfSource_);
-        isTalk_ = false;
-    }
+    durTalk_ = 0.1; //Aquí cada cuanto se mandan los paquetes en segundos.
+    nframes_ = 1;
+    scheduleAt(simTime() + durTalk_, selfSource_);
+    scheduleAt(simTime(), selfSender_);
 }
 
-void SNavigatorSender::sendVoIPPacket()
+void SNavigatorSender::sendsNavigatorPacket()
 {
     if (destAddress_.isUnspecified())
         destAddress_ = L3AddressResolver().resolve(par("destAddress"));
 
-    Packet* packet = new inet::Packet("VoIP");
-    auto voip = makeShared<SNavigatorPacket>();
-    voip->setIDtalk(iDtalk_ - 1);
-    voip->setNframes(nframes_);
-    voip->setIDframe(iDframe_);
-    voip->setPayloadTimestamp(simTime());
-    voip->setChunkLength(B(size_));
-    voip->addTag<CreationTimeTag>()->setCreationTime(simTime());
+    Packet* packet = new inet::Packet("sNavigator");
+    auto sNavigator = makeShared<SNavigatorPacket>();
+    sNavigator->setIDtalk(iDtalk_ - 1);
+    sNavigator->setNframes(nframes_);
+    sNavigator->setIDframe(iDframe_);
+    sNavigator->setPayloadTimestamp(simTime());
+    sNavigator->setChunkLength(B(size_));
+    sNavigator->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
     navMessage_ = "Prueba de envío";
-    voip->setNavMessage(navMessage_.c_str());
+    sNavigator->setNavMessage(navMessage_.c_str());
 
-    packet->insertAtBack(voip);
-    EV << "VoIPSender::sendVoIPPacket - Talkspurt[" << iDtalk_-1 << "] - Sending frame[" << iDframe_ << "] - MSG[[" << navMessage_ << "]\n";
+    packet->insertAtBack(sNavigator);
+    EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - Sending frame[" << iDframe_ << "] - MSG[[" << navMessage_ << "]\n";
 
     socket.sendTo(packet, destAddress_, destPort_);
     --nframesTmp_;
@@ -192,7 +155,7 @@ void SNavigatorSender::sendVoIPPacket()
     if (interval > 0.0)
     {
         double tputSample = (double)totalSentBytes_ / interval;
-        emit(voIPGeneratedThroughtput_, tputSample );
+        emit(sNavigatorGeneratedThroughtput_, tputSample );
     }
 
     if (nframesTmp_ > 0)

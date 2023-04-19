@@ -46,7 +46,7 @@ class SNavigatorSender : public omnetpp::cSimpleModule
     unsigned int totalSentBytes_;
     omnetpp::simtime_t warmUpPer_;
 
-    omnetpp::simsignal_t voIPGeneratedThroughtput_;
+    omnetpp::simsignal_t sNavigatorGeneratedThroughtput_;
     // ----------------------------
 
     omnetpp::cMessage *selfSender_;
@@ -59,9 +59,8 @@ class SNavigatorSender : public omnetpp::cSimpleModule
     inet::L3Address destAddress_;
 
     void initTraffic();
-    void talkspurt(omnetpp::simtime_t dur);
     void selectPeriodTime();
-    void sendVoIPPacket();
+    void sendsNavigatorPacket();
 
   public:
     ~SNavigatorSender();
