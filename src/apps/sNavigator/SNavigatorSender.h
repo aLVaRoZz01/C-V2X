@@ -25,26 +25,14 @@ class SNavigatorSender : public omnetpp::cSimpleModule
 
     //source
     omnetpp::simtime_t durTalk_;
-    omnetpp::simtime_t durSil_;
-    double scaleTalk_;
-    double shapeTalk_;
-    double scaleSil_;
-    double shapeSil_;
-    bool isTalk_;
     omnetpp::cMessage* selfSource_;
     //sender
     int iDtalk_;
-    int nframes_;
-    int iDframe_;
-    int nframesTmp_;
     int size_;
     std::string navMessage_;
-    omnetpp::simtime_t sampling_time;
 
-    bool silences_;
 
     unsigned int totalSentBytes_;
-    omnetpp::simtime_t warmUpPer_;
 
     omnetpp::simsignal_t sNavigatorGeneratedThroughtput_;
     // ----------------------------

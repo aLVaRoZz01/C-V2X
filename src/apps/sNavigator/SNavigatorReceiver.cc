@@ -36,14 +36,6 @@ void SNavigatorReceiver::initialize(int stage)
     if (stage != inet::INITSTAGE_APPLICATION_LAYER)
         return;
 
-    emodel_Ie_ = par("emodel_Ie_");
-    emodel_Bpl_ = par("emodel_Bpl_");
-    emodel_A_ = par("emodel_A_");
-    emodel_Ro_ = par("emodel_Ro_");
-
-    mBufferSpace_ = par("dim_buffer");
-    mSamplingDelta_ = par("sampling_time");
-    mPlayoutDelay_ = par("playout_delay");
 
     mInit_ = true;
 
@@ -56,7 +48,6 @@ void SNavigatorReceiver::initialize(int stage)
     }
 
     totalRcvdBytes_ = 0;
-    warmUpPer_ = getSimulation()->getWarmupPeriod();
 
 }
 
@@ -85,13 +76,12 @@ void SNavigatorReceiver::handleMessage(cMessage *msg)
         mCurrentTalkspurt_ = sNavigatorHeader->getIDtalk();
     }
 
-    EV << "sNavigatorReceiver::handleMessage - Packet received: TALK[" << sNavigatorHeader->getIDtalk() << "] - FRAME[" << sNavigatorHeader->getIDframe() << " size: " << sNavigatorHeader->getChunkLength() << " bytes]" " - MSG[" << sNavigatorHeader->getNavMessage() << "]\n";
+    EV << "sNavigatorReceiver::handleMessage - Packet received: TALK[" << sNavigatorHeader->getIDtalk() << "] - SIZE[ " << sNavigatorHeader->getChunkLength() << " bytes]" " - MSG[" << sNavigatorHeader->getNavMessage() << "]\n";
 
     // emit throughput sample
     totalRcvdBytes_ += (int)B(sNavigatorHeader->getChunkLength()).get();
 
     auto packetToBeQueued = sNavigatorHeader->dup();
-    packetToBeQueued->setArrivalTime(simTime());
     mPacketsList_.push_back(packetToBeQueued);
 
     delete pPacket;

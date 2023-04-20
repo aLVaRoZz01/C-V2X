@@ -27,12 +27,6 @@ void SNavigatorPacketSerializer::serialize(MemoryOutputStream& stream, const Ptr
     const auto& sNavigatorPacket = staticPtrCast<const SNavigatorPacket>(chunk);
     stream.writeUint32Be(B(sNavigatorPacket->getChunkLength()).get());
     stream.writeUint32Be(sNavigatorPacket->getIDtalk());
-    stream.writeUint32Be(sNavigatorPacket->getNframes());
-    stream.writeUint32Be(sNavigatorPacket->getIDframe());
-    stream.writeUint64Be(sNavigatorPacket->getPayloadTimestamp().raw());
-    stream.writeUint64Be(sNavigatorPacket->getArrivalTime().raw());
-    stream.writeUint64Be(sNavigatorPacket->getPlayoutTime().raw());
-    stream.writeUint32Be(sNavigatorPacket->getPayloadSize());
     stream.writeUint32Be(std::stoul(sNavigatorPacket->getNavMessage()));
 
     int64_t remainders = B(sNavigatorPacket->getChunkLength() - (stream.getLength() - startPosition)).get();
@@ -47,12 +41,6 @@ const Ptr<Chunk> SNavigatorPacketSerializer::deserialize(MemoryInputStream& stre
     auto sNavigatorPacket = makeShared<SNavigatorPacket>();
     B dataLength = B(stream.readUint32Be());
     sNavigatorPacket->setIDtalk(stream.readUint32Be());
-    sNavigatorPacket->setNframes(stream.readUint32Be());
-    sNavigatorPacket->setIDframe(stream.readUint32Be());
-    sNavigatorPacket->getPayloadTimestamp().setRaw(stream.readUint64Be());
-    sNavigatorPacket->getArrivalTime().setRaw(stream.readUint64Be());
-    sNavigatorPacket->getPlayoutTime().setRaw(stream.readUint64Be());
-    sNavigatorPacket->setPayloadSize(stream.readUint32Be());
     sNavigatorPacket->setNavMessage(std::to_string(stream.readUint32Be()).c_str());
 
     B remainders = dataLength - (stream.getPosition() - startPosition);

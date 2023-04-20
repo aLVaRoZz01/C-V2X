@@ -28,18 +28,10 @@ class SNavigatorReceiver : public omnetpp::cSimpleModule
 
     ~SNavigatorReceiver();
 
-    int emodel_Ie_;
-    int emodel_Bpl_;
-    int emodel_A_;
-    double emodel_Ro_;
-
     typedef std::list<SNavigatorPacket*> PacketsList;
     PacketsList mPacketsList_;
     PacketsList mPlayoutQueue_;
     unsigned int mCurrentTalkspurt_;
-    unsigned int mBufferSpace_;
-    omnetpp::simtime_t mSamplingDelta_;
-    omnetpp::simtime_t mPlayoutDelay_;
 
     bool mInit_;
 

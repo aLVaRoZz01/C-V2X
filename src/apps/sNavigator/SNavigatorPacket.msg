@@ -20,11 +20,5 @@ import inet.common.packet.chunk.Chunk;
 
 class SNavigatorPacket extends inet::FieldsChunk {
     unsigned int IDtalk;
-    unsigned int nframes;
-    unsigned int IDframe;
-    simtime_t arrivalTime;
-    simtime_t playoutTime;
-    simtime_t payloadTimestamp;
-    unsigned int payloadSize;
     string navMessage;
 }

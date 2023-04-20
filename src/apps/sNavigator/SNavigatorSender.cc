@@ -40,29 +40,17 @@ void SNavigatorSender::initialize(int stage)
     if (stage!=inet::INITSTAGE_APPLICATION_LAYER)
         return;
 
-    durTalk_ = 0;
-    durSil_ = 0;
+
     selfSource_ = new cMessage("selfSource");
-    scaleTalk_ = par("scale_talk");
-    shapeTalk_ = par("shape_talk");
-    scaleSil_ = par("scale_sil");
-    shapeSil_ = par("shape_sil");
-    isTalk_ = par("is_talk");
     iDtalk_ = 0;
-    nframes_ = 0;
-    nframesTmp_ = 0;
-    iDframe_ = 0;
     timestamp_ = 0;
     size_ = par("PacketSize");
-    sampling_time = par("sampling_time");
     selfSender_ = new cMessage("selfSender");
     localPort_ = par("localPort");
     destPort_ = par("destPort");
-    silences_ = par("silences");
     navMessage_ = "";
 
     totalSentBytes_ = 0;
-    warmUpPer_ = getSimulation()->getWarmupPeriod();
     sNavigatorGeneratedThroughtput_ = registerSignal("sNavigatorGeneratedThroughput");
 
     initTraffic_ = new cMessage("initTraffic");
@@ -108,11 +96,7 @@ void SNavigatorSender::initTraffic()
 
         EV << simTime() << "sNavigatorSender::initialize - binding to port: local:" << localPort_ << " , dest: " << destAddress_.str() << ":" << destPort_ << endl;
 
-        // calculating traffic starting time
-        simtime_t startTime = par("startTime");
-
-        scheduleAt(simTime()+startTime, selfSource_);
-        EV << "\t starting traffic in " << startTime << " seconds " << endl;
+        scheduleAt(simTime(), selfSource_);
     }
 }
 
@@ -120,7 +104,6 @@ void SNavigatorSender::initTraffic()
 void SNavigatorSender::selectPeriodTime()
 {
     durTalk_ = 0.1; //Aquí cada cuanto se mandan los paquetes en segundos.
-    nframes_ = 1;
     scheduleAt(simTime() + durTalk_, selfSource_);
     scheduleAt(simTime(), selfSender_);
 }
@@ -133,9 +116,6 @@ void SNavigatorSender::sendsNavigatorPacket()
     Packet* packet = new inet::Packet("sNavigator");
     auto sNavigator = makeShared<SNavigatorPacket>();
     sNavigator->setIDtalk(iDtalk_ - 1);
-    sNavigator->setNframes(nframes_);
-    sNavigator->setIDframe(iDframe_);
-    sNavigator->setPayloadTimestamp(simTime());
     sNavigator->setChunkLength(B(size_));
     sNavigator->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
@@ -143,21 +123,11 @@ void SNavigatorSender::sendsNavigatorPacket()
     sNavigator->setNavMessage(navMessage_.c_str());
 
     packet->insertAtBack(sNavigator);
-    EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - Sending frame[" << iDframe_ << "] - MSG[[" << navMessage_ << "]\n";
+    EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - MSG[[" << navMessage_ << "]\n";
 
     socket.sendTo(packet, destAddress_, destPort_);
-    --nframesTmp_;
-    ++iDframe_;
 
     // emit throughput sample
     totalSentBytes_ += size_;
-    double interval = SIMTIME_DBL(simTime() - warmUpPer_);
-    if (interval > 0.0)
-    {
-        double tputSample = (double)totalSentBytes_ / interval;
-        emit(sNavigatorGeneratedThroughtput_, tputSample );
-    }
 
-    if (nframesTmp_ > 0)
-        scheduleAt(simTime() + sampling_time, selfSender_);
 }
