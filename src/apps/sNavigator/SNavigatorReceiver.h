@@ -22,6 +22,17 @@
 
 #include "apps/sNavigator/SNavigatorPacket_m.h"
 
+#include "veins/modules/mobility/traci/TraCIMobility.h"
+#include "veins/modules/mobility/traci/TraCICommandInterface.h"
+#include "veins_inet/VeinsInetMobility.h"
+
+using veins::VeinsInetMobility;
+
+
+using namespace std;
+using namespace inet;
+using namespace veins;
+
 class SNavigatorReceiver : public omnetpp::cSimpleModule
 {
     inet::UdpSocket socket;
@@ -38,7 +49,12 @@ class SNavigatorReceiver : public omnetpp::cSimpleModule
     unsigned int totalRcvdBytes_;
     omnetpp::simtime_t warmUpPer_;
 
-
+protected:
+    /* pointers ill be set when used with TraCIMobility */
+    VeinsInetMobility* mobility;
+    TraCICommandInterface* traci;
+    TraCICommandInterface::Vehicle* traciVehicle;
+    std::string carId; // this vehicle
 
   protected:
 

@@ -10,6 +10,8 @@
 //
 
 #include "apps/sNavigator/SNavigatorReceiver.h"
+#include "inet/common/INETDefs.h"
+#include <omnetpp.h>
 
 Define_Module(SNavigatorReceiver);
 
@@ -49,6 +51,11 @@ void SNavigatorReceiver::initialize(int stage)
 
     totalRcvdBytes_ = 0;
 
+    mobility = VeinsInetMobilityAccess().get(getParentModule());
+    traci = mobility->getCommandInterface();
+    traciVehicle = mobility->getVehicleCommandInterface();
+    carId=mobility->getExternalId();
+
 }
 
 void SNavigatorReceiver::handleMessage(cMessage *msg)
@@ -75,6 +82,22 @@ void SNavigatorReceiver::handleMessage(cMessage *msg)
     {
         mCurrentTalkspurt_ = sNavigatorHeader->getIDtalk();
     }
+
+
+    //Procesa el paquete navigator para cambiar la ruta
+    std::string strRoutes = sNavigatorHeader->getNavMessage();
+    std::stringstream ss(strRoutes);
+    std:list<std::string> routesList;
+
+    std::string substr;
+    while (std::getline(ss, substr, ',')) {
+        routesList.push_back(substr);
+    }
+
+    const char *v1 = "0";
+    const char *v2 = "2";
+    if ((simTime()>35) && ((carId == v1) || (carId == v2)))
+        traciVehicle->changeVehicleRoute(routesList);
 
     EV << "sNavigatorReceiver::handleMessage - Packet received: TALK[" << sNavigatorHeader->getIDtalk() << "] - SIZE[ " << sNavigatorHeader->getChunkLength() << " bytes]" " - MSG[" << sNavigatorHeader->getNavMessage() << "]\n";
 

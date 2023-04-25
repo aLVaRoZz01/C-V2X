@@ -119,7 +119,20 @@ void SNavigatorSender::sendsNavigatorPacket()
     sNavigator->setChunkLength(B(size_));
     sNavigator->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    navMessage_ = "Prueba de envío";
+
+    std::list<std::string> roads {
+                                "1/1to1/0",
+                                "1/0to0/0"
+                            };
+    std::string result;
+    for (const auto& road : roads) {
+        result += road + ",";
+    }
+    if(!result.empty()){
+        result.pop_back();
+    }
+
+    navMessage_ = result;
     sNavigator->setNavMessage(navMessage_.c_str());
 
     packet->insertAtBack(sNavigator);
