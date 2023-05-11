@@ -1,16 +1,17 @@
 #include <cmath>
 #include <inet/common/TimeTag_m.h>
-#include "apps/sNavigator2/SNavigatorModule2.h"
 #include "inet/common/INETDefs.h"
 #include <omnetpp.h>
 
+#include "SNavigatorVehicle2.h"
+
 #define round(x) floor((x) + 0.5)
 
-Define_Module(SNavigatorModule2);
+Define_Module(SNavigatorVehicle2);
 using namespace std;
 using namespace inet;
 
-SNavigatorModule2::SNavigatorModule2()
+SNavigatorVehicle2::SNavigatorVehicle2()
 {
     selfSource_ = nullptr;
     selfSender_ = nullptr;
@@ -31,13 +32,13 @@ SNavigatorModule2::SNavigatorModule2()
     }
 }
 
-SNavigatorModule2::~SNavigatorModule2()
+SNavigatorVehicle2::~SNavigatorVehicle2()
 {
     cancelAndDelete(selfSource_);
     cancelAndDelete(selfSender_);
 }
 
-void SNavigatorModule2::initialize(int stage)
+void SNavigatorVehicle2::initialize(int stage)
 {
     EV << "sNavigator Sender initialize: stage " << stage << endl;
 
@@ -56,7 +57,6 @@ void SNavigatorModule2::initialize(int stage)
     localPort_ = par("localPort");
     destPort_ = par("destPort");
     navMessage_ = "";
-    type_ = par("type");
 
     totalSentBytes_ = 0;
     sNavigatorGeneratedThroughtput_ = registerSignal("sNavigatorGeneratedThroughput");
@@ -74,24 +74,24 @@ void SNavigatorModule2::initialize(int stage)
 
     mInit_ = true;
 
-    int port = par("localPort");
-    EV << "sNavigatorReceiver::initialize - binding to port: local:" << port << endl;
-    if (port != -1)
-    {
-        socket.setOutputGate(gate("socketOut"));
-        socket.bind(port);
-    }
-
-    totalRcvdBytes_ = 0;
-
-    mobility = VeinsInetMobilityAccess().get(getParentModule());
-    traci = mobility->getCommandInterface();
-    traciVehicle = mobility->getVehicleCommandInterface();
-    carId=mobility->getExternalId();
+//    int port = par("localPort");
+//    EV << "sNavigatorReceiver::initialize - binding to port: local:" << port << endl;
+//    if (port != -1)
+//    {
+//        socket.setOutputGate(gate("socketOut"));
+//        socket.bind(port);
+//    }
+//
+//    totalRcvdBytes_ = 0;
+//
+//    mobility = VeinsInetMobilityAccess().get(getParentModule());
+//    traci = mobility->getCommandInterface();
+//    traciVehicle = mobility->getVehicleCommandInterface();
+//    carId=mobility->getExternalId();
 
 }
 
-void SNavigatorModule2::handleMessage(cMessage *msg)
+void SNavigatorVehicle2::handleMessage(cMessage *msg)
 {
     if (msg->isSelfMessage())
     {
@@ -107,10 +107,10 @@ void SNavigatorModule2::handleMessage(cMessage *msg)
 
     if (msg->isSelfMessage())
         return;
-    Packet* pPacket = check_and_cast<Packet*>(msg);
 
-    if (pPacket == 0)
-    {
+    Packet* pPacket = dynamic_cast<Packet*>(msg);
+    if (pPacket == nullptr) {
+        return;
         throw cRuntimeError("sNavigatorReceiver::handleMessage - FATAL! Error when casting to inet packet");
     }
 
@@ -138,7 +138,7 @@ void SNavigatorModule2::handleMessage(cMessage *msg)
 
 }
 
-void SNavigatorModule2::initTraffic()
+void SNavigatorVehicle2::initTraffic()
 {
     std::string destAddress = par("destAddress").stringValue();
     cModule* destModule = findModuleByPath(par("destAddress").stringValue());
@@ -169,14 +169,14 @@ void SNavigatorModule2::initTraffic()
 }
 
 
-void SNavigatorModule2::selectPeriodTime()
+void SNavigatorVehicle2::selectPeriodTime()
 {
     durTalk_ = 0.1; //Aquí cada cuanto se mandan los paquetes en segundos.
     scheduleAt(simTime() + durTalk_, selfSource_);
     scheduleAt(simTime(), selfSender_);
 }
 
-void SNavigatorModule2::sendsNavigatorPacket()
+void SNavigatorVehicle2::sendsNavigatorPacket()
 {
     if (destAddress_.isUnspecified())
         destAddress_ = L3AddressResolver().resolve(par("destAddress"));
@@ -188,20 +188,22 @@ void SNavigatorModule2::sendsNavigatorPacket()
     sNavigator->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
 
-    std::list<std::string> roads {
-                                "1/1to1/0",
-                                "1/0to0/0"
-                            };
-    std::string result;
-    for (const auto& road : roads) {
-        result += road + ",";
-    }
-    if(!result.empty()){
-        result.pop_back();
-    }
+    //navMessage_ = "Servidor dame una ruta por favor";
+    std::string mensajes[] = {
+        "Fernando en la curva 3",
+        "Lo primero de todo como están los maquinas",
+        "Paso que tengo prisa",
+        "Písale vamos",
+        "Dame una rutilla server que me voy de curvas",
+        "Que tal ha ido el tramo",
+        "Rotonda sin fuente..."
+    };
 
-    navMessage_ = result;
-    sNavigator->setNavMessage(navMessage_.c_str());
+    int num_mensajes = sizeof(mensajes) / sizeof(mensajes[0]);
+    int indice_aleatorio = rand() % num_mensajes;
+
+    sNavigator->setNavMessage(mensajes[indice_aleatorio].c_str());
+    //sNavigator->setNavMessage(navMessage_.c_str());
 
     packet->insertAtBack(sNavigator);
     EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - MSG[[" << navMessage_ << "]\n";

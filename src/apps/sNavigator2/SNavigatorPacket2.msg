@@ -20,6 +20,5 @@ import inet.common.packet.chunk.Chunk;
 
 class SNavigatorPacket2 extends inet::FieldsChunk {
     unsigned int IDtalk;
-    unsigned int type;    // 0 for downlink 1 for uplink
     string navMessage;
 }

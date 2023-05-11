@@ -14,14 +14,13 @@ package simu5g.apps.sNavigator2;
 import inet.applications.contract.IApp;
 
 
-simple SNavigatorModule2 like IApp
+simple SNavigatorServer2 like IApp
 {
     parameters:
         int localPort = default(-1);
         int destPort = default(3000);
         string destAddress;
         int PacketSize = default(40);
-        int type;
 
         int tos = default(-1); // if not -1, set the Type Of Service (IPv4) / Traffic Class (IPv6) field of sent packets to this value
         

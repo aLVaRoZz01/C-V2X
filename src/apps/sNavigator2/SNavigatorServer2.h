@@ -9,8 +9,8 @@
 // and cannot be removed from it.
 //
 
-#ifndef _SNAVIGATORMODULE2_H_
-#define _SNAVIGATORMODULE2_H_
+#ifndef _SNAVIGATORSERVER2_H_
+#define _SNAVIGATORSERVER2_H_
 
 #include <list>
 #include <string.h>
@@ -32,7 +32,7 @@ using namespace std;
 using namespace inet;
 using namespace veins;
 
-class SNavigatorModule2 : public omnetpp::cSimpleModule
+class SNavigatorServer2 : public omnetpp::cSimpleModule
 {
     inet::UdpSocket socket;
 
@@ -59,7 +59,7 @@ class SNavigatorModule2 : public omnetpp::cSimpleModule
     int destPort_;
     inet::L3Address destAddress_;
 
-    ~SNavigatorModule2();
+    ~SNavigatorServer2();
 
     typedef std::list<SNavigatorPacket2*> PacketsList;
     PacketsList mPacketsList_;
@@ -76,7 +76,7 @@ class SNavigatorModule2 : public omnetpp::cSimpleModule
     void sendsNavigatorPacket();
 
 public:
-    SNavigatorModule2();
+    SNavigatorServer2();
 
 protected:
     /* pointers ill be set when used with TraCIMobility */
