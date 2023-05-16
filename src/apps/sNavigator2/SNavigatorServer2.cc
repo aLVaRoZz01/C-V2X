@@ -193,23 +193,28 @@ void SNavigatorServer2::sendsNavigatorPacket()
     sNavigator->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
 
-//    std::list<std::string> roads {
-//                                "1/1to1/0",
-//                                "1/0to0/0"
-//                            };
-//    std::string result;
-//    for (const auto& road : roads) {
-//        result += road + ",";
-//    }
-//    if(!result.empty()){
-//        result.pop_back();
-//    }
-//
-//    navMessage_ = result;
-//    sNavigator->setNavMessage(navMessage_.c_str());
 
-      navMessage_ = "Te recibo coche" + msgReceived;
-      sNavigator->setNavMessage(navMessage_.c_str());
+    if (msgReceived == "1/2to1/1,1/1to1/0") {
+            std::list<std::string> roads {
+                                        "1/1to1/0",
+                                        "1/0to0/0"
+                                    };
+            std::string result;
+            for (const auto& road : roads) {
+                result += road + ",";
+            }
+            if(!result.empty()){
+                result.pop_back();
+            }
+
+            navMessage_ = result;
+            sNavigator->setNavMessage(navMessage_.c_str());
+    }
+    else {
+        navMessage_ = "Te recibo coche: " + msgReceived;
+        sNavigator->setNavMessage(navMessage_.c_str());
+    }
+
 
     packet->insertAtBack(sNavigator);
     EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - MSG[[" << navMessage_ << "]\n";

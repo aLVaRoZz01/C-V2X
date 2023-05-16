@@ -84,10 +84,10 @@ void SNavigatorVehicle2::initialize(int stage)
 //
 //    totalRcvdBytes_ = 0;
 //
-//    mobility = VeinsInetMobilityAccess().get(getParentModule());
-//    traci = mobility->getCommandInterface();
-//    traciVehicle = mobility->getVehicleCommandInterface();
-//    carId=mobility->getExternalId();
+    mobility = VeinsInetMobilityAccess().get(getParentModule());
+    traci = mobility->getCommandInterface();
+    traciVehicle = mobility->getVehicleCommandInterface();
+    carId=mobility->getExternalId();
 
 }
 
@@ -127,6 +127,22 @@ void SNavigatorVehicle2::handleMessage(cMessage *msg)
     {
         mCurrentTalkspurt_ = sNavigatorHeader->getIDtalk();
     }
+
+    //Procesa el paquete navigator para cambiar la ruta
+    std::string strRoutes = sNavigatorHeader->getNavMessage();
+    std::stringstream ss(strRoutes);
+    std:list<std::string> routesList;
+
+    std::string substr;
+    while (std::getline(ss, substr, ',')) {
+        routesList.push_back(substr);
+    }
+
+    const char *v1 = "0";
+    const char *v2 = "2";
+    if ((simTime()>35) && ((carId == v1) || (carId == v2)))
+        traciVehicle->changeVehicleRoute(routesList);
+
 
     // emit throughput sample
     totalRcvdBytes_ += (int)B(sNavigatorHeader->getChunkLength()).get();
@@ -189,21 +205,38 @@ void SNavigatorVehicle2::sendsNavigatorPacket()
 
 
     //navMessage_ = "Servidor dame una ruta por favor";
-    std::string mensajes[] = {
-        "Fernando en la curva 3",
-        "Lo primero de todo como están los maquinas",
-        "Paso que tengo prisa",
-        "Písale vamos",
-        "Dame una rutilla server que me voy de curvas",
-        "Que tal ha ido el tramo",
-        "Rotonda sin fuente..."
-    };
-
-    int num_mensajes = sizeof(mensajes) / sizeof(mensajes[0]);
-    int indice_aleatorio = rand() % num_mensajes;
-
-    sNavigator->setNavMessage(mensajes[indice_aleatorio].c_str());
+//    std::string mensajes[] = {
+//        "Fernando en la curva 3",
+//        "Lo primero de todo como están los maquinas",
+//        "Paso que tengo prisa",
+//        "Písale vamos",
+//        "Dame una rutilla server que me voy de curvas",
+//        "Que tal ha ido el tramo",
+//        "Rotonda sin fuente..."
+//    };
+//
+//
+//
+//    int num_mensajes = sizeof(mensajes) / sizeof(mensajes[0]);
+//    int indice_aleatorio = rand() % num_mensajes;
+//
+//    sNavigator->setNavMessage(mensajes[indice_aleatorio].c_str());
     //sNavigator->setNavMessage(navMessage_.c_str());
+
+    std::list<std::string> lista = traciVehicle->getPlannedRoadIds();
+
+    std::string resultado;
+
+        for (auto it = lista.begin(); it != lista.end(); ++it) {
+            resultado += *it;
+
+            // Agregar una coma después de cada elemento, excepto el último
+            if (std::next(it) != lista.end()) {
+                resultado += ",";
+            }
+        }
+    sNavigator->setNavMessage(resultado.c_str());
+
 
     packet->insertAtBack(sNavigator);
     EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - MSG[[" << navMessage_ << "]\n";
