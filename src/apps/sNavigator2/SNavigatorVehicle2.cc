@@ -82,8 +82,8 @@ void SNavigatorVehicle2::initialize(int stage)
 //        socket.bind(port);
 //    }
 //
-//    totalRcvdBytes_ = 0;
-//
+    totalRcvdBytes_ = 0;
+
     mobility = VeinsInetMobilityAccess().get(getParentModule());
     traci = mobility->getCommandInterface();
     traciVehicle = mobility->getVehicleCommandInterface();
@@ -130,18 +130,24 @@ void SNavigatorVehicle2::handleMessage(cMessage *msg)
 
     //Procesa el paquete navigator para cambiar la ruta
     std::string strRoutes = sNavigatorHeader->getNavMessage();
-    std::stringstream ss(strRoutes);
-    std:list<std::string> routesList;
+    std::string filter = "No cambies de ruta:";
+    if (strRoutes.substr(0, filter.length()) == filter) {
 
-    std::string substr;
-    while (std::getline(ss, substr, ',')) {
-        routesList.push_back(substr);
+    }
+    else {
+        std::stringstream ss(strRoutes);
+        std:list<std::string> routesList;
+
+        std::string substr;
+        while (std::getline(ss, substr, ',')) {
+            routesList.push_back(substr);
+        }
+
+        EV <<  "Cambiando ruta :)" << endl;
+        if (simTime()>35)
+            traciVehicle->changeVehicleRoute(routesList);
     }
 
-    const char *v1 = "0";
-    const char *v2 = "2";
-    if ((simTime()>35) && ((carId == v1) || (carId == v2)))
-        traciVehicle->changeVehicleRoute(routesList);
 
 
     // emit throughput sample
@@ -224,6 +230,7 @@ void SNavigatorVehicle2::sendsNavigatorPacket()
     //sNavigator->setNavMessage(navMessage_.c_str());
 
     std::list<std::string> lista = traciVehicle->getPlannedRoadIds();
+    // traciVehicle->getRoadId() // Para obtener la carretera en la que se encuentra actualmente
 
     std::string resultado;
 

@@ -211,7 +211,7 @@ void SNavigatorServer2::sendsNavigatorPacket()
             sNavigator->setNavMessage(navMessage_.c_str());
     }
     else {
-        navMessage_ = "Te recibo coche: " + msgReceived;
+        navMessage_ = "No cambies de ruta: " + msgReceived;
         sNavigator->setNavMessage(navMessage_.c_str());
     }
 
