@@ -21,4 +21,5 @@ import inet.common.packet.chunk.Chunk;
 class SNavigatorPacket2 extends inet::FieldsChunk {
     unsigned int IDtalk;
     string navMessage;
+    string navPosition;
 }

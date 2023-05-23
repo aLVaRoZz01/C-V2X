@@ -44,6 +44,7 @@ class SNavigatorServer2 : public omnetpp::cSimpleModule
     int size_;
     int type_;
     std::string navMessage_;
+    std::string navPosition_;
 
     unsigned int totalSentBytes_;
 

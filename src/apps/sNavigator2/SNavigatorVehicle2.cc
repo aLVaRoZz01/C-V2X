@@ -243,6 +243,7 @@ void SNavigatorVehicle2::sendsNavigatorPacket()
             }
         }
     sNavigator->setNavMessage(resultado.c_str());
+    sNavigator->setNavPosition(traciVehicle->getRoadId().c_str());
 
 
     packet->insertAtBack(sNavigator);
