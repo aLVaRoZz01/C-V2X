@@ -13,6 +13,7 @@
 #define _SNAVIGATORSERVER2_H_
 
 #include <list>
+#include <map>
 #include <string.h>
 
 #include <omnetpp.h>
@@ -75,6 +76,8 @@ class SNavigatorServer2 : public omnetpp::cSimpleModule
     void initTraffic();
     void selectPeriodTime();
     void sendsNavigatorPacket();
+    double getUtilization();
+    std::vector<double> getUtilizationOfAllEnbs()
 
 public:
     SNavigatorServer2();
@@ -85,6 +88,9 @@ protected:
     TraCICommandInterface* traci;
     TraCICommandInterface::Vehicle* traciVehicle;
     std::string carId; // this vehicle
+
+    std::map<std::string, int> usuariosConectadosPorEstacionBase;
+    std::map<std::string, int> capacidadMaximaPorEstacionBase;
 
   protected:
 

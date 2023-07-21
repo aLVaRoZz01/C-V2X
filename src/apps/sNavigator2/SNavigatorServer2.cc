@@ -2,6 +2,7 @@
 #include <inet/common/TimeTag_m.h>
 #include "inet/common/INETDefs.h"
 #include <omnetpp.h>
+#include "stack/mac/layer/LteMacEnb.h"
 #include "SNavigatorServer2.h"
 
 #define round(x) floor((x) + 0.5)
@@ -11,6 +12,44 @@ using namespace std;
 using namespace inet;
 
 std::string msgReceived = "";
+
+//double SNavigatorServer2::getUtilization()
+//{
+//    double utilization;
+//
+//        // Obtener el módulo LteMacEnb de la estación base actual
+//        cModule* enbModule = getParentModule();
+//        LteMacEnb* macEnb = check_and_cast<LteMacEnb*>(enbModule->getSubmodule("mac"));
+//
+//        // Verificar si el módulo LteMacEnb existe y es de tipo LteMacEnb
+//        if (macEnb != nullptr)
+//        {
+//            // Obtener el número de usuarios conectados desde el módulo LteMacEnb
+//            utilization = macEnb->getUtilization(UNKNOWN_DIRECTION);
+//
+//        }
+//
+//        return utilization;
+//}
+
+std::vector<double> SNavigatorServer2::getUtilizationOfAllEnbs()
+{
+    std::vector<double> utilizationList;
+
+    // Obtener la lista de estaciones base en el escenario
+    cModule* parentModule = getParentModule();
+    cModule::SubmoduleIterator iter(parentModule);
+    while (cModule* submodule = iter()) {
+        if (LteMacEnb* macEnb = dynamic_cast<LteMacEnb*>(submodule)) {
+            // Obtener la utilización de la estación base
+            double utilization = macEnb->getUtilization(UNKNOWN_DIRECTION);
+            utilizationList.push_back(utilization);
+        }
+    }
+
+    return utilizationList;
+}
+
 
 SNavigatorServer2::SNavigatorServer2()
 {
@@ -136,6 +175,10 @@ void SNavigatorServer2::handleMessage(cMessage *msg)
 
     auto packetToBeQueued = sNavigatorHeader->dup();
     mPacketsList_.push_back(packetToBeQueued);
+
+
+    double utilization = getUtilization();
+    EV << "---- La utilización es ----:  " << utilization << endl;
 
     msgReceived = sNavigatorHeader->getNavMessage();
     selectPeriodTime();     //Manda un paquete de respuesta :)
