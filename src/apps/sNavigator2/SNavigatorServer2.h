@@ -77,7 +77,7 @@ class SNavigatorServer2 : public omnetpp::cSimpleModule
     void selectPeriodTime();
     void sendsNavigatorPacket();
     double getUtilization();
-    std::vector<double> getUtilizationOfAllEnbs()
+    std::vector<double> getUtilizationOfAllEnbs();
 
 public:
     SNavigatorServer2();

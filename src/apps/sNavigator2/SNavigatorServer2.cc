@@ -3,6 +3,7 @@
 #include "inet/common/INETDefs.h"
 #include <omnetpp.h>
 #include "stack/mac/layer/LteMacEnb.h"
+#include "stack/mac/layer/NRMacGnb.h"
 #include "SNavigatorServer2.h"
 
 #define round(x) floor((x) + 0.5)
@@ -39,9 +40,19 @@ std::vector<double> SNavigatorServer2::getUtilizationOfAllEnbs()
     // Obtener la lista de estaciones base en el escenario
     cModule* parentModule = getParentModule();
     cModule::SubmoduleIterator iter(parentModule);
-    while (cModule* submodule = iter()) {
+    for (; !iter.end(); ++iter) {
+        cModule* submodule = *iter;
+        EV << "Veamos " << submodule  << endl;
         if (LteMacEnb* macEnb = dynamic_cast<LteMacEnb*>(submodule)) {
             // Obtener la utilización de la estación base
+            EV << "Estación Base: " << macEnb->getName()  << endl;
+            double utilization = macEnb->getUtilization(UNKNOWN_DIRECTION);
+            utilizationList.push_back(utilization);
+        }
+
+        if (NRMacGnb* macEnb = dynamic_cast<NRMacGnb*>(submodule)) {
+            // Obtener la utilización de la estación base
+            EV << "Estación Base: " << macEnb->getName()  << endl;
             double utilization = macEnb->getUtilization(UNKNOWN_DIRECTION);
             utilizationList.push_back(utilization);
         }
@@ -177,8 +188,16 @@ void SNavigatorServer2::handleMessage(cMessage *msg)
     mPacketsList_.push_back(packetToBeQueued);
 
 
-    double utilization = getUtilization();
-    EV << "---- La utilización es ----:  " << utilization << endl;
+    std::vector<double> utilization = getUtilizationOfAllEnbs();
+    EV << "---- La utilización es ----:  ";
+    if (!utilization.empty()) {
+        for (double value : utilization) {
+            EV << value << " ";
+        }
+    } else {
+        EV << "El vector de utilización está vacío." << endl;
+    }
+    EV << endl;
 
     msgReceived = sNavigatorHeader->getNavMessage();
     selectPeriodTime();     //Manda un paquete de respuesta :)
