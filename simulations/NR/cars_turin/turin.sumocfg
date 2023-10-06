@@ -1,0 +1,20 @@
+<configuration>
+
+  <input>
+    <net-file value="turin.net.xml"/>
+    <route-files value="turin.rou.xml"/>
+    <additional-files value="turin.poly.xml"/>
+  </input>
+  
+  <time>
+    <begin value="0"/>
+    <end value="500"/>
+    <step-length value="0.1"/>
+  </time>
+  
+  <gui_only>
+  	<start value="true"/>
+    <gui-settings-file value="gui-settings.xml"/>
+   </gui_only>
+   
+</configuration>
