@@ -25,7 +25,11 @@ import simu5g.common.binder.Binder;
 import simu5g.nodes.NR.gNodeB;
 import simu5g.nodes.cars.NRCar;
 
+import org.car2x.veins.modules.obstacle.ObstacleControl;
+
 import org.car2x.veins.subprojects.veins_inet.VeinsInetManager;
+import org.car2x.veins.modules.world.annotations.AnnotationManager;
+import org.car2x.veins.visualizer.roads.RoadsCanvasVisualizer;
 
 network Highway
 {
@@ -39,7 +43,13 @@ network Highway
 
 
     submodules:
-
+        annotations: AnnotationManager {
+            @display("p=260,50");
+        }
+        roadsCanvasVisualizer: RoadsCanvasVisualizer {
+            @display("p=300,0");
+        }
+        
         routingRecorder: RoutingTableRecorder {
             @display("p=50,75;is=s");
         }
