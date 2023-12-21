@@ -1,4 +1,5 @@
 #include <cmath>
+#include <map>
 #include <inet/common/TimeTag_m.h>
 #include "inet/common/INETDefs.h"
 #include <omnetpp.h>
@@ -10,7 +11,12 @@ Define_Module(SNavigatorServer2);
 using namespace std;
 using namespace inet;
 
+std::string findRepeatingPositions(const std::string& positionsString);
 std::string msgReceived = "";
+std::string posmsgReceived = "";
+std::map<std::string, std::string> carPositions_;
+int maxCarsInRoad = 0;
+
 
 SNavigatorServer2::SNavigatorServer2()
 {
@@ -138,6 +144,19 @@ void SNavigatorServer2::handleMessage(cMessage *msg)
     mPacketsList_.push_back(packetToBeQueued);
 
     msgReceived = sNavigatorHeader->getNavMessage();
+    posmsgReceived = sNavigatorHeader->getNavPosition();
+
+    carPositions_[sNavigatorHeader->getCarId()] = sNavigatorHeader->getNavPosition();
+
+    for (const auto& entry : carPositions_) {
+        std::string carId = entry.first;
+        std::string carPosition = entry.second;
+
+        EV << "Diccionario de posiciones - Car ID: " << carId << ", Position: " << carPosition << endl;
+    }
+
+
+
     selectPeriodTime();     //Manda un paquete de respuesta :)
     delete pPacket;
 
@@ -194,7 +213,20 @@ void SNavigatorServer2::sendsNavigatorPacket()
 
 
 
-    if (msgReceived == "1/2to1/1,1/1to1/0") {
+
+    std::string result = findRepeatingPositions(msgReceived);
+    if (!result.empty()) {
+        EV << "Se ha encontrado un tramo saturado " << result << std::endl;
+        navMessage_ = "Cambia de ruta: " + msgReceived;
+        sNavigator->setNavMessage(navMessage_.c_str());
+    } else {
+        EV << "No se ha encontrado un tramo saturado" << std::endl;
+        navMessage_ = "No cambies de ruta: " + msgReceived;
+        sNavigator->setNavMessage(navMessage_.c_str());
+    }
+
+
+ /*   if (msgReceived == "1/2to1/1,1/1to1/0") {
             std::list<std::string> roads {
                                         "1/1to1/0",
                                         "1/0to0/0"
@@ -214,7 +246,7 @@ void SNavigatorServer2::sendsNavigatorPacket()
         navMessage_ = "No cambies de ruta: " + msgReceived;
         sNavigator->setNavMessage(navMessage_.c_str());
     }
-
+*/
 
     packet->insertAtBack(sNavigator);
     EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - MSG[[" << navMessage_ << "]\n";
@@ -225,3 +257,40 @@ void SNavigatorServer2::sendsNavigatorPacket()
     totalSentBytes_ += size_;
 
 }
+
+std::string findRepeatingPositions(const std::string& positionsString) {
+    // Tokenize the input string based on commas
+    std::istringstream iss(positionsString);
+    std::string position;
+    std::vector<std::string> positions;
+    while (std::getline(iss, position, ',')) {
+        positions.push_back(position);
+    }
+
+    // Count occurrences of each position in the dictionary
+    std::map<std::string, int> positionCount;
+    for (const auto& entry : carPositions_) {
+        positionCount[entry.second]++;
+    }
+
+    // Find positions that occur more than 4 times
+    std::vector<std::string> repeatingPositions;
+    for (const auto& pos : positions) {
+        if (positionCount[pos] > maxCarsInRoad) {
+            repeatingPositions.push_back(pos);
+        }
+    }
+
+    // Join the repeating positions with commas
+    std::ostringstream result;
+    for (size_t i = 0; i < repeatingPositions.size(); ++i) {
+        result << repeatingPositions[i];
+        if (i < repeatingPositions.size() - 1) {
+            result << ",";
+        }
+    }
+
+    return result.str();
+}
+
+

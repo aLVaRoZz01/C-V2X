@@ -45,6 +45,7 @@ class SNavigatorServer2 : public omnetpp::cSimpleModule
     int type_;
     std::string navMessage_;
     std::string navPosition_;
+    std::string carId_;
 
     unsigned int totalSentBytes_;
 
@@ -75,6 +76,9 @@ class SNavigatorServer2 : public omnetpp::cSimpleModule
     void initTraffic();
     void selectPeriodTime();
     void sendsNavigatorPacket();
+
+
+
 
 public:
     SNavigatorServer2();

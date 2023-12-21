@@ -210,24 +210,6 @@ void SNavigatorVehicle2::sendsNavigatorPacket()
     sNavigator->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
 
-    //navMessage_ = "Servidor dame una ruta por favor";
-//    std::string mensajes[] = {
-//        "Fernando en la curva 3",
-//        "Lo primero de todo como están los maquinas",
-//        "Paso que tengo prisa",
-//        "Písale vamos",
-//        "Dame una rutilla server que me voy de curvas",
-//        "Que tal ha ido el tramo",
-//        "Rotonda sin fuente..."
-//    };
-//
-//
-//
-//    int num_mensajes = sizeof(mensajes) / sizeof(mensajes[0]);
-//    int indice_aleatorio = rand() % num_mensajes;
-//
-//    sNavigator->setNavMessage(mensajes[indice_aleatorio].c_str());
-    //sNavigator->setNavMessage(navMessage_.c_str());
 
     std::list<std::string> lista = traciVehicle->getPlannedRoadIds();
     // traciVehicle->getRoadId() // Para obtener la carretera en la que se encuentra actualmente
@@ -244,6 +226,7 @@ void SNavigatorVehicle2::sendsNavigatorPacket()
         }
     sNavigator->setNavMessage(resultado.c_str());
     sNavigator->setNavPosition(traciVehicle->getRoadId().c_str());
+    sNavigator->setCarId(carId.c_str());
 
 
     packet->insertAtBack(sNavigator);

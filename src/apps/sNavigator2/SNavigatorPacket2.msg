@@ -22,4 +22,5 @@ class SNavigatorPacket2 extends inet::FieldsChunk {
     unsigned int IDtalk;
     string navMessage;
     string navPosition;
+    string carId;
 }

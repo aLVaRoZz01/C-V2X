@@ -45,6 +45,7 @@ class SNavigatorVehicle2 : public omnetpp::cSimpleModule
     int type_;
     std::string navMessage_;
     std::string navPosition_;
+    std::string carId_;
 
     unsigned int totalSentBytes_;
 
