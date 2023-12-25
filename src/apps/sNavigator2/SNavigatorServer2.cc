@@ -217,6 +217,27 @@ void SNavigatorServer2::sendsNavigatorPacket()
     std::string result = findRepeatingPositions(msgReceived);
     if (!result.empty()) {
         EV << "Se ha encontrado un tramo saturado " << result << std::endl;
+        std::istringstream ss(msgReceived);
+        std::string token;
+        std::vector<std::string> positions;
+
+        while (std::getline(ss, token, ',')) {
+            positions.push_back(token);
+        }
+
+        if (!positions.empty()) {
+            // Obtener la primera y la última posición
+            std::string posIni = positions.front();
+            std::string posFin = positions.back();
+
+            EV << "Punto de incio: " << posIni << std::endl;
+            EV << "Punto de destino: " << posFin << std::endl;
+
+        } else {
+            EV << "La lista de posiciones está vacía." << std::endl;
+        }
+
+
         navMessage_ = "Cambia de ruta: " + msgReceived;
         sNavigator->setNavMessage(navMessage_.c_str());
     } else {
@@ -259,7 +280,7 @@ void SNavigatorServer2::sendsNavigatorPacket()
 }
 
 std::string findRepeatingPositions(const std::string& positionsString) {
-    // Tokenize the input string based on commas
+
     std::istringstream iss(positionsString);
     std::string position;
     std::vector<std::string> positions;
@@ -267,13 +288,13 @@ std::string findRepeatingPositions(const std::string& positionsString) {
         positions.push_back(position);
     }
 
-    // Count occurrences of each position in the dictionary
+    // Cuenta las occurencias de cada posicion en el diccionario
     std::map<std::string, int> positionCount;
     for (const auto& entry : carPositions_) {
         positionCount[entry.second]++;
     }
 
-    // Find positions that occur more than 4 times
+    // Encuentra las posiciones que se repiten mas de el numero fijado
     std::vector<std::string> repeatingPositions;
     for (const auto& pos : positions) {
         if (positionCount[pos] > maxCarsInRoad) {
@@ -281,7 +302,7 @@ std::string findRepeatingPositions(const std::string& positionsString) {
         }
     }
 
-    // Join the repeating positions with commas
+    // Une las posciciones repetidas con comas
     std::ostringstream result;
     for (size_t i = 0; i < repeatingPositions.size(); ++i) {
         result << repeatingPositions[i];
