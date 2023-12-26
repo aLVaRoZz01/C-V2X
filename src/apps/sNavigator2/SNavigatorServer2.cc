@@ -4,6 +4,14 @@
 #include "inet/common/INETDefs.h"
 #include <omnetpp.h>
 #include "SNavigatorServer2.h"
+#include <cstdlib>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+
 
 #define round(x) floor((x) + 0.5)
 
@@ -13,6 +21,7 @@ using namespace inet;
 
 std::string findRepeatingPositions(const std::string& positionsString);
 std::string msgReceived = "";
+std::string msgEnviar = "";
 std::string posmsgReceived = "";
 std::map<std::string, std::string> carPositions_;
 int maxCarsInRoad = 0;
@@ -214,9 +223,9 @@ void SNavigatorServer2::sendsNavigatorPacket()
 
 
 
-    std::string result = findRepeatingPositions(msgReceived);
-    if (!result.empty()) {
-        EV << "Se ha encontrado un tramo saturado " << result << std::endl;
+    std::string tramosEvitar = findRepeatingPositions(msgReceived);
+    if (!tramosEvitar.empty()) {
+        EV << "Se ha encontrado un tramo saturado " << tramosEvitar << std::endl;
         std::istringstream ss(msgReceived);
         std::string token;
         std::vector<std::string> positions;
@@ -233,13 +242,64 @@ void SNavigatorServer2::sendsNavigatorPacket()
             EV << "Punto de incio: " << posIni << std::endl;
             EV << "Punto de destino: " << posFin << std::endl;
 
+            std::ofstream archivo("tmp.trips.xml");
+                if (archivo.is_open()) {
+                    archivo << "<?xml version=\"1.0\"?>\n";
+                    archivo << "<trips>\n";
+                    archivo << "    <trip id=\"0\" depart=\"0.00\" from=\"" << posmsgReceived << "\" to=\"" << posFin << "\" />\n";
+                    archivo << "</trips>\n";
+                    archivo.close();
+                }
+
+
+            std::string comandoDuarouter = "/usr/bin/duarouter -n turin.net.xml --route-files tmp.trips.xml -o tmp.rou.xml --ignore-errors";
+            int stat = system(comandoDuarouter.c_str());
+            if (stat == 0) {
+                EV << "Duarouter se ejecutó con éxito." << std::endl;
+                std::ifstream file("tmp.rou.xml");
+                if (!file.is_open()) {
+                    std::cerr << "Error al abrir el archivo." << std::endl;
+                    return;
+                }
+                std::string edges;
+
+                std::ostringstream oss;
+                oss << file.rdbuf();
+                std::string xmlContent = oss.str();
+                std::istringstream iss(xmlContent);
+
+                std::string line;
+                while (std::getline(iss, line)) {
+                    size_t found = line.find("edges=\"");
+                    if (found != std::string::npos) {
+                        size_t start = found + 7;  // Longitud de "edges=\""
+                        size_t end = line.find("\"", start);
+                        if (end != std::string::npos) {
+                            edges = line.substr(start, end - start);
+                            EV << "Los nodos son:" << edges << std::endl;
+                        }
+                    }
+                }
+
+                msgEnviar = edges;
+                    for (char& character : msgEnviar) {
+                        if (character == ' ') {
+                            character = ',';
+                        }
+                    }
+                EV << "Mensaje a enviar:" << msgEnviar << std::endl;
+
+
+            } else {
+                EV << "Error al ejecutar Duarouter." << std::endl;
+            }
+
+
         } else {
             EV << "La lista de posiciones está vacía." << std::endl;
         }
 
-
-        navMessage_ = "Cambia de ruta: " + msgReceived;
-        sNavigator->setNavMessage(navMessage_.c_str());
+        sNavigator->setNavMessage(msgEnviar.c_str());
     } else {
         EV << "No se ha encontrado un tramo saturado" << std::endl;
         navMessage_ = "No cambies de ruta: " + msgReceived;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-12-26 10:07:53 by Eclipse SUMO duarouter Version 1.12.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="turin.net.xml"/>
+        <route-files value="tmp.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="tmp.rou.xml"/>
+        <alternatives-output value="tmp.rou.alt.xml"/>
+    </output>
+
+    <report>
+        <ignore-errors value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="0" depart="0.00">
+        <route edges="36917807#1 36917807#2 36857683#1 36857683#2 36857683#3 257171429#0 257171429#2 257171429#3 257171428 111801792 116810574 257171432#0 257171432#1 257171427 257171430#0 257171430#2 257171426#0 257171426#1 257028826#0 257028826#2 116810527 -966246757 -160591231#6 -160591231#5 -160591231#3 -1090772073"/>
+    </vehicle>
+</routes>
