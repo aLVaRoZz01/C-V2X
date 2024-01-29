@@ -20,6 +20,8 @@ using namespace std;
 using namespace inet;
 
 std::string findRepeatingPositions(const std::string& positionsString);
+void removeEdge(const std::string& filename, const std::string& edgeId);
+void removeElement(std::string& str, const std::string& element);
 std::string msgReceived = "";
 std::string msgEnviar = "";
 std::string posmsgReceived = "";
@@ -245,14 +247,26 @@ void SNavigatorServer2::sendsNavigatorPacket()
             std::ofstream archivo("tmp.trips.xml");
                 if (archivo.is_open()) {
                     archivo << "<?xml version=\"1.0\"?>\n";
-                    archivo << "<trips>\n";
-                    archivo << "    <trip id=\"0\" depart=\"0.00\" from=\"" << posmsgReceived << "\" to=\"" << posFin << "\" />\n";
-                    archivo << "</trips>\n";
+                    archivo << "<routes>\n";
+                    archivo << "    <trips>\n";
+                    archivo << "        <trip id=\"0\" depart=\"0.00\" from=\"" << posmsgReceived << "\" to=\"" << posFin << "\" />\n";
+                    archivo << "    </trips>\n";
+                    archivo << "</routes>\n";
                     archivo.close();
                 }
 
+            std::string copiarNet = "cp turin.net.xml tmp.net.xml";
+            int stat0 = system(copiarNet.c_str());
 
-            std::string comandoDuarouter = "/usr/bin/duarouter -n turin.net.xml --route-files tmp.trips.xml -o tmp.rou.xml --ignore-errors";
+            removeElement(tramosEvitar, posIni);
+            removeElement(tramosEvitar, posFin);
+
+            //removeEdge("tmp.net.xml", tramosEvitar);
+            removeEdge("tmp.net.xml", "257171428");
+
+
+
+            std::string comandoDuarouter = "/usr/bin/duarouter -n tmp.net.xml --route-files tmp.trips.xml -o tmp.rou.xml --ignore-errors";
             int stat = system(comandoDuarouter.c_str());
             if (stat == 0) {
                 EV << "Duarouter se ejecutó con éxito." << std::endl;
@@ -287,11 +301,13 @@ void SNavigatorServer2::sendsNavigatorPacket()
                             character = ',';
                         }
                     }
-                EV << "Mensaje a enviar:" << msgEnviar << std::endl;
+                EV << "Nueva ruta:" << msgEnviar << std::endl;
 
 
             } else {
                 EV << "Error al ejecutar Duarouter." << std::endl;
+                EV << "Es obligatorio pasar por el tramo saturado" << std::endl;
+                msgEnviar = "No cambies de ruta: " + msgReceived;
             }
 
 
@@ -357,7 +373,7 @@ std::string findRepeatingPositions(const std::string& positionsString) {
     // Encuentra las posiciones que se repiten mas de el numero fijado
     std::vector<std::string> repeatingPositions;
     for (const auto& pos : positions) {
-        if (positionCount[pos] > maxCarsInRoad) {
+        if (positionCount[pos] >= maxCarsInRoad) {
             repeatingPositions.push_back(pos);
         }
     }
@@ -374,4 +390,84 @@ std::string findRepeatingPositions(const std::string& positionsString) {
     return result.str();
 }
 
+void removeEdge(const std::string& filename, const std::string& edgeIds) {
+    std::ifstream inFile(filename);
+    std::ofstream outFile("temp.xml");
+
+    if (!inFile.is_open()) {
+        std::cerr << "Error: No se pudo abrir el archivo de entrada." << std::endl;
+        return;
+    }
+
+    if (!outFile.is_open()) {
+        std::cerr << "Error: No se pudo abrir el archivo temporal." << std::endl;
+        return;
+    }
+
+    std::vector<std::string> edgesToRemove;
+    std::stringstream ss(edgeIds);
+    std::string token;
+
+    // Dividir el string de edgeIds en tokens separados por comas
+    while (std::getline(ss, token, ',')) {
+        edgesToRemove.push_back(token);
+    }
+
+    std::string line;
+    bool insideEdge = false;
+
+    while (std::getline(inFile, line)) {
+        bool skipLine = false;
+
+        // Verificar si la línea contiene uno de los edgeIds a eliminar
+        for (const auto& edgeId : edgesToRemove) {
+            if (line.find("<edge id=\"" + edgeId + "\"") != std::string::npos) {
+                // Comenzamos a encontrar el elemento <edge>
+                insideEdge = true;
+                skipLine = true;
+                break;
+            }
+        }
+
+        // Si estamos dentro de un edgeId, no escribimos la línea actual
+        if (insideEdge && line.find("</edge>") != std::string::npos) {
+            insideEdge = false;
+            skipLine = true;
+        }
+
+        if (!skipLine) {
+            // Escribir solo si no estamos dentro del elemento <edge> o <lane>
+            if (!insideEdge || line.find("<lane") == std::string::npos) {
+                outFile << line << std::endl;
+            }
+        }
+    }
+
+    // Cerrar archivos
+    inFile.close();
+    outFile.close();
+
+    // Renombrar el archivo temporal al archivo original
+    std::rename("temp.xml", filename.c_str());
+}
+
+
+void removeElement(std::string& str, const std::string& element) {
+    std::stringstream ss(str);
+    std::string token;
+    std::string result;
+
+    // Iterar sobre los elementos separados por comas
+    while (std::getline(ss, token, ',')) {
+        if (token != element) {
+            if (!result.empty()) {
+                result += ",";
+            }
+            result += token;
+        }
+    }
+
+    // Actualizar el string original con el resultado
+    str = result;
+}
 

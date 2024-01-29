@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
-<trips>
-    <trip id="0" depart="0.00" from="36917807#1" to="-1090772073" />
-</trips>
+<routes>
+    <trips>
+        <trip id="0" depart="0.00" from="36917807#1" to="-1090772073" />
+    </trips>
+</routes>
