@@ -300,7 +300,7 @@ network Highway
 
 
 
-        
+
 
         //# X2 connections
         //# gNodeB1.x2++ <--> Eth10G <--> gNodeB2.x2++;

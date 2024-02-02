@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <regex>
 
 
 #define round(x) floor((x) + 0.5)
@@ -27,6 +28,7 @@ std::string msgEnviar = "";
 std::string posmsgReceived = "";
 std::map<std::string, std::string> carPositions_;
 int maxCarsInRoad = 0;
+std::string actualCarId = "";
 
 
 SNavigatorServer2::SNavigatorServer2()
@@ -157,6 +159,8 @@ void SNavigatorServer2::handleMessage(cMessage *msg)
     msgReceived = sNavigatorHeader->getNavMessage();
     posmsgReceived = sNavigatorHeader->getNavPosition();
 
+    actualCarId = sNavigatorHeader->getCarId();
+
     carPositions_[sNavigatorHeader->getCarId()] = sNavigatorHeader->getNavPosition();
 
     for (const auto& entry : carPositions_) {
@@ -261,8 +265,8 @@ void SNavigatorServer2::sendsNavigatorPacket()
             removeElement(tramosEvitar, posIni);
             removeElement(tramosEvitar, posFin);
 
-            //removeEdge("tmp.net.xml", tramosEvitar);
-            removeEdge("tmp.net.xml", "257171428");
+            removeEdge("tmp.net.xml", tramosEvitar);
+            //removeEdge("tmp.net.xml", "254428904");
 
 
 
@@ -301,7 +305,9 @@ void SNavigatorServer2::sendsNavigatorPacket()
                             character = ',';
                         }
                     }
-                EV << "Nueva ruta:" << msgEnviar << std::endl;
+
+                EV << "Nueva ruta para el coche " << actualCarId << ". La ruta nueva es: " << msgEnviar << std::endl;
+                EV << "La antugua ruta del coche " << actualCarId << " era: " << msgReceived << std::endl;
 
 
             } else {
@@ -322,28 +328,6 @@ void SNavigatorServer2::sendsNavigatorPacket()
         sNavigator->setNavMessage(navMessage_.c_str());
     }
 
-
- /*   if (msgReceived == "1/2to1/1,1/1to1/0") {
-            std::list<std::string> roads {
-                                        "1/1to1/0",
-                                        "1/0to0/0"
-                                    };
-            std::string result;
-            for (const auto& road : roads) {
-                result += road + ",";
-            }
-            if(!result.empty()){
-                result.pop_back();
-            }
-
-            navMessage_ = result;
-            sNavigator->setNavMessage(navMessage_.c_str());
-    }
-    else {
-        navMessage_ = "No cambies de ruta: " + msgReceived;
-        sNavigator->setNavMessage(navMessage_.c_str());
-    }
-*/
 
     packet->insertAtBack(sNavigator);
     EV << "sNavigatorSender::sendsNavigatorPacket - Talkspurt[" << iDtalk_-1 << "] - MSG[[" << navMessage_ << "]\n";
@@ -390,6 +374,69 @@ std::string findRepeatingPositions(const std::string& positionsString) {
     return result.str();
 }
 
+
+//modificar método para convertir lanes en no aptos para vehículos
+//void removeEdge(const std::string& filename, const std::string& edgeIds) {
+//    std::ifstream inFile(filename);
+//    std::ofstream outFile("temp.xml");
+//
+//    if (!inFile.is_open()) {
+//        std::cerr << "Error: No se pudo abrir el archivo de entrada." << std::endl;
+//        return;
+//    }
+//
+//    if (!outFile.is_open()) {
+//        std::cerr << "Error: No se pudo abrir el archivo temporal." << std::endl;
+//        return;
+//    }
+//
+//    std::vector<std::string> edgesToRemove;
+//    std::stringstream ss(edgeIds);
+//    std::string token;
+//
+//    // Dividir el string de edgeIds en tokens separados por comas
+//    while (std::getline(ss, token, ',')) {
+//        edgesToRemove.push_back(token);
+//    }
+//
+//    std::string line;
+//    bool insideEdge = false;
+//
+//    while (std::getline(inFile, line)) {
+//        bool skipLine = false;
+//
+//        // Verificar si la línea contiene uno de los edgeIds a eliminar
+//        for (const auto& edgeId : edgesToRemove) {
+//            if (line.find("<edge id=\"" + edgeId + "\"") != std::string::npos) {
+//                // Comenzamos a encontrar el elemento <edge>
+//                insideEdge = true;
+//                skipLine = true;
+//                break;
+//            }
+//        }
+//
+//        // Si estamos dentro de un edgeId, no escribimos la línea actual
+//        if (insideEdge && line.find("</edge>") != std::string::npos) {
+//            insideEdge = false;
+//            skipLine = true;
+//        }
+//
+//        if (!skipLine) {
+//            // Escribir solo si no estamos dentro del elemento <edge> o <lane>
+//            if (!insideEdge || line.find("<lane") == std::string::npos) {
+//                outFile << line << std::endl;
+//            }
+//        }
+//    }
+//
+//    // Cerrar archivos
+//    inFile.close();
+//    outFile.close();
+//
+//    // Renombrar el archivo temporal al archivo original
+//    std::rename("temp.xml", filename.c_str());
+//}
+
 void removeEdge(const std::string& filename, const std::string& edgeIds) {
     std::ifstream inFile(filename);
     std::ofstream outFile("temp.xml");
@@ -423,6 +470,7 @@ void removeEdge(const std::string& filename, const std::string& edgeIds) {
         for (const auto& edgeId : edgesToRemove) {
             if (line.find("<edge id=\"" + edgeId + "\"") != std::string::npos) {
                 // Comenzamos a encontrar el elemento <edge>
+                outFile << line << std::endl;
                 insideEdge = true;
                 skipLine = true;
                 break;
@@ -431,6 +479,7 @@ void removeEdge(const std::string& filename, const std::string& edgeIds) {
 
         // Si estamos dentro de un edgeId, no escribimos la línea actual
         if (insideEdge && line.find("</edge>") != std::string::npos) {
+            outFile << line << std::endl;
             insideEdge = false;
             skipLine = true;
         }
@@ -438,6 +487,20 @@ void removeEdge(const std::string& filename, const std::string& edgeIds) {
         if (!skipLine) {
             // Escribir solo si no estamos dentro del elemento <edge> o <lane>
             if (!insideEdge || line.find("<lane") == std::string::npos) {
+                outFile << line << std::endl;
+            } else {
+                // Estamos dentro de un <edge> y es una línea que contiene un <lane>
+                std::smatch disallowMatch;
+                std::smatch allowMatch;
+                if (std::regex_search(line, disallowMatch, std::regex("disallow=\"([^\"]*)\""))) {
+                    line = std::regex_replace(line, std::regex("disallow=\"([^\"]*)\""), "");
+                }
+                if (std::regex_search(line, allowMatch, std::regex("allow=\"([^\"]*)\""))) {
+                    line = std::regex_replace(line, std::regex("allow=\"([^\"]*)\""), "allow=\"pedestrian\"");
+                } else {
+                    size_t pos = line.find("/>");
+                    line.insert(pos, " allow=\"pedestrian\"");
+                }
                 outFile << line << std::endl;
             }
         }
@@ -450,6 +513,7 @@ void removeEdge(const std::string& filename, const std::string& edgeIds) {
     // Renombrar el archivo temporal al archivo original
     std::rename("temp.xml", filename.c_str());
 }
+
 
 
 void removeElement(std::string& str, const std::string& element) {

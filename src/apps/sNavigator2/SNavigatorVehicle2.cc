@@ -131,6 +131,7 @@ void SNavigatorVehicle2::handleMessage(cMessage *msg)
     //Procesa el paquete navigator para cambiar la ruta
     std::string strRoutes = sNavigatorHeader->getNavMessage();
     std::string filter = "No cambies de ruta:";
+    EV <<  "test000" << endl;
     if (strRoutes.substr(0, filter.length()) == filter) {
 
     }
@@ -144,8 +145,7 @@ void SNavigatorVehicle2::handleMessage(cMessage *msg)
         }
 
         EV <<  "Cambiando ruta :)" << endl;
-        if (simTime()>35)
-            traciVehicle->changeVehicleRoute(routesList);
+        traciVehicle->changeVehicleRoute(routesList);
     }
 
 
