@@ -21,6 +21,7 @@ simple SNavigatorServer2 like IApp
         int destPort = default(3000);
         string destAddress;
         int PacketSize = default(40);
+        string mapName;
 
         int tos = default(-1); // if not -1, set the Type Of Service (IPv4) / Traffic Class (IPv6) field of sent packets to this value
         

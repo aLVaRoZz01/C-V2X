@@ -78,6 +78,8 @@ void SNavigatorServer2::initialize(int stage)
     localPort_ = par("localPort");
     destPort_ = par("destPort");
     navMessage_ = "";
+    mapName = par("mapName").stringValue();
+    mapName += ".net.xml";
 
     totalSentBytes_ = 0;
     sNavigatorGeneratedThroughtput_ = registerSignal("sNavigatorGeneratedThroughput");
@@ -259,7 +261,7 @@ void SNavigatorServer2::sendsNavigatorPacket()
                     archivo.close();
                 }
 
-            std::string copiarNet = "cp turin.net.xml tmp.net.xml";
+            std::string copiarNet = "cp " + mapName + ".net.xml tmp.net.xml";
             int stat0 = system(copiarNet.c_str());
 
             removeElement(tramosEvitar, posIni);

@@ -1,0 +1,6 @@
+<launch>
+  <copy file="road.net.xml"/>
+  <copy file="road.rou.xml"/>
+  <copy file="road.sumocfg" type="config"/>
+  <copy file="gui-settings.xml"/>
+</launch>

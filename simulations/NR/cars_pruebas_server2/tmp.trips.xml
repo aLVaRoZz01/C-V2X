@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <routes>
     <trips>
-        <trip id="0" depart="0.00" from="2/1to1/1" to="1/1to0/1" />
+        <trip id="0" depart="0.00" from="1/2to1/1" to="1/1to1/0" />
     </trips>
 </routes>
