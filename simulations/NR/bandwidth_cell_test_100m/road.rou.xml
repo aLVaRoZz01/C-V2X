@@ -1,0 +1,13 @@
+<routes>
+  <!-- Define el tipo de vehículo -->
+  <vType id="car" accel="0.8" decel="4.5" sigma="1.0" length="4" minGap="2.5" maxSpeed="0.00000000000000000000000000000000000000000001" guiShape="passenger" />
+  
+  <!-- Define la ruta del vehículo con la arista inicial -->
+  <route id="1" edges="2/1to1/1"/>
+  
+  <!-- Define el vehículo y su ruta -->
+  <vehicle id="0" type="car" route="1" depart="1">
+    <!-- Agrega una parada de tiempo infinita en la arista inicial para que el vehículo permanezca estacionado -->
+    <stop edge="2/1to1/1" laneIndex="0" position="2500" duration="1000000000"/>
+  </vehicle>
+</routes>

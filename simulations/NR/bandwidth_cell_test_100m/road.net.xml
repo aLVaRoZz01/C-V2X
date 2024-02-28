@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2024-02-28 12:08:12 by Eclipse SUMO netedit Version 1.12.0
+<!-- generated on 2024-02-28 11:06:45 by Eclipse SUMO netedit Version 1.12.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="/home/alvaro/simu5g-workspace/simu5G/simulations/NR/bandwidth_cell_test_2400m/road.net.xml"/>
+        <sumo-net-file value="/home/alvaro/simu5g-workspace/simu5G/simulations/NR/bandwidth_cell_test_100m/road.net.xml"/>
     </input>
 
     <output>
-        <output-file value="/home/alvaro/simu5g-workspace/simu5G/simulations/NR/bandwidth_cell_test_2400m/road.net.xml"/>
+        <output-file value="/home/alvaro/simu5g-workspace/simu5G/simulations/NR/bandwidth_cell_test_100m/road.net.xml"/>
     </output>
 
     <processing>
@@ -38,31 +38,31 @@
 
 <net version="1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
 
-    <location netOffset="0.00,0.00" convBoundary="0.00,200.00,9800.00,200.00" origBoundary="0.00,0.00,400.00,400.00" projParameter="!"/>
+    <location netOffset="0.00,0.00" convBoundary="0.00,200.00,100.00,200.00" origBoundary="0.00,0.00,400.00,400.00" projParameter="!"/>
 
     <edge id=":1/1_0" function="internal">
-        <lane id=":1/1_0_0" index="0" speed="13.90" length="0.10" shape="4900.00,201.60 4900.00,201.60"/>
+        <lane id=":1/1_0_0" index="0" speed="13.90" length="0.10" shape="50.00,201.60 50.00,201.60"/>
     </edge>
     <edge id=":1/1_1" function="internal">
-        <lane id=":1/1_1_0" index="0" speed="13.90" length="0.10" shape="4900.00,198.40 4900.00,198.40"/>
+        <lane id=":1/1_1_0" index="0" speed="13.90" length="0.10" shape="50.00,198.40 50.00,198.40"/>
     </edge>
 
     <edge id="0/1to1/1" from="0/1" to="1/1" priority="-1">
-        <lane id="0/1to1/1_0" index="0" speed="13.90" length="4900.00" shape="0.00,198.40 4900.00,198.40"/>
+        <lane id="0/1to1/1_0" index="0" speed="13.90" length="50.00" shape="0.00,198.40 50.00,198.40"/>
     </edge>
     <edge id="1/1to0/1" from="1/1" to="0/1" priority="-1">
-        <lane id="1/1to0/1_0" index="0" speed="13.90" length="4900.00" shape="4900.00,201.60 0.00,201.60"/>
+        <lane id="1/1to0/1_0" index="0" speed="13.90" length="50.00" shape="50.00,201.60 0.00,201.60"/>
     </edge>
     <edge id="1/1to2/1" from="1/1" to="2/1" priority="-1">
-        <lane id="1/1to2/1_0" index="0" speed="13.90" length="4900.00" shape="4900.00,198.40 9800.00,198.40"/>
+        <lane id="1/1to2/1_0" index="0" speed="13.90" length="50.00" shape="50.00,198.40 100.00,198.40"/>
     </edge>
     <edge id="2/1to1/1" from="2/1" to="1/1" priority="-1">
-        <lane id="2/1to1/1_0" index="0" speed="13.90" length="4900.00" shape="9800.00,201.60 4900.00,201.60"/>
+        <lane id="2/1to1/1_0" index="0" speed="13.90" length="50.00" shape="100.00,201.60 50.00,201.60"/>
     </edge>
 
     <junction id="0/1" type="traffic_light_unregulated" x="0.00" y="200.00" incLanes="1/1to0/1_0" intLanes="" shape="0.00,200.00 0.00,203.20 0.00,200.00"/>
-    <junction id="1/1" type="traffic_light_unregulated" x="4900.00" y="200.00" incLanes="2/1to1/1_0 0/1to1/1_0" intLanes=":1/1_0_0 :1/1_1_0" shape="4900.00,203.20 4900.00,196.80 4900.00,203.20"/>
-    <junction id="2/1" type="traffic_light_unregulated" x="9800.00" y="200.00" incLanes="1/1to2/1_0" intLanes="" shape="9800.00,200.00 9800.00,196.80 9800.00,200.00"/>
+    <junction id="1/1" type="traffic_light_unregulated" x="50.00" y="200.00" incLanes="2/1to1/1_0 0/1to1/1_0" intLanes=":1/1_0_0 :1/1_1_0" shape="50.00,203.20 50.00,196.80 50.00,203.20"/>
+    <junction id="2/1" type="traffic_light_unregulated" x="100.00" y="200.00" incLanes="1/1to2/1_0" intLanes="" shape="100.00,200.00 100.00,196.80 100.00,200.00"/>
 
     <connection from="0/1to1/1" to="1/1to2/1" fromLane="0" toLane="0" uncontrolled="1" via=":1/1_1_0" dir="s" state="M"/>
     <connection from="2/1to1/1" to="1/1to0/1" fromLane="0" toLane="0" uncontrolled="1" via=":1/1_0_0" dir="s" state="M"/>

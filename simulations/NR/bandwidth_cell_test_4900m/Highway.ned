@@ -8,7 +8,7 @@
 // The above files and the present reference are part of the software itself, 
 // and cannot be removed from it.
 //
-package simu5g.simulations.NR.bandwidth_cell_test;
+package simu5g.simulations.NR.bandwidth_cell_test_4900m;
 
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.networklayer.ipv4.RoutingTableRecorder;
@@ -73,7 +73,7 @@ network Highway
             @display("p=3554.7458,226.29099");
         }
         gNodeB1: gNodeB {
-            @display("p=4894.384,69.02336;is=n");
+            @display("p=4900.572145,19.11698;is=n");
         }
         //# submodule vector to store all cars - will be filled dynamically during simulations
         car[0]: NRCar {
@@ -83,5 +83,6 @@ network Highway
         server.pppg++ <--> Eth10G <--> router.pppg++;
         router.pppg++ <--> Eth10G <--> upf.filterGate;
         upf.pppg++ <--> Eth10G <--> gNodeB1.ppp;
+
 }
 

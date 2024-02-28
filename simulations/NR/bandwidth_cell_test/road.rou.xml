@@ -1,13 +1,11 @@
 <routes>
-  <!--Namespace(N=75, filecount=None, input='routes.txt', launch=False, output='singleIntersection.rou.xml', quarter=100)-->
-  <vType id="car" accel="0.8" decel="4.5" sigma="1.0" length="4" minGap="2.5" maxSpeed="13.89" guiShape="passenger" />
+  <!-- Define el tipo de vehículo -->
+  <vType id="car" accel="0.8" decel="4.5" sigma="1.0" length="4" minGap="2.5" maxSpeed="1.0" guiShape="passenger" />
   
+  <!-- Define la ruta del vehículo con las dos aristas especificadas -->
   <route id="1" edges="2/1to1/1 1/1to0/1"/>
   
-  <vehicle id="0" type="car" route="1" depart="1"/>
-  <vehicle id="1" type="car" route="1" depart="1"/>
-  <vehicle id="2" type="car" route="1" depart="1"/>
-  <vehicle id="3" type="car" route="1" depart="1"/>
-  <vehicle id="4" type="car" route="1" depart="1"/>
-
+  <!-- Define el vehículo y su ruta -->
+  <vehicle id="0" type="car" route="1" depart="1">
+  </vehicle>
 </routes>
