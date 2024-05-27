@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2024-02-06 12:41:39 by Eclipse SUMO duarouter Version 1.12.0
+<!-- generated on 2024-03-07 15:37:11 by Eclipse SUMO duarouter Version 1.12.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
@@ -20,10 +20,4 @@
 </configuration>
 -->
 
-<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <vehicle id="0" depart="0.00">
-        <routeDistribution last="0">
-            <route cost="110.27" probability="1.00000000" edges="36917807#1 36929941 315873916#5 561619118#0 561619118#1 1138121142 1138121143 116810554#0 116810554#2 116810554#3 116810554#4 116810554#5 116810554#6 116810554#9 502438902#5 502438902#6 502438902#8 966246760#0 966246760#1 966246760#2 1090772073 -1090772073"/>
-        </routeDistribution>
-    </vehicle>
-</routes>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd"/>
