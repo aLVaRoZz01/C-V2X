@@ -22,7 +22,7 @@ simple ChannelControl
         double pMax @unit("mW") = default(20mW); // maximum sending power used for this network (in mW)
         double sat @unit("dBm") = default(-110dBm); // signal attenuation threshold (in dBm)
         double alpha = default(4); // path loss coefficient original 2 arosado
-        double carrierFrequency @unit("Hz") = default(26GHz); // base carrier frequency of all the channels (in Hz) original 2.4 arosado
+        double carrierFrequency @unit("Hz") = default(2GHz); // base carrier frequency of all the channels (in Hz) original 2.4 arosado
         int numChannels = default(1); // number of radio channels (frequencies)
         string propagationModel @enum("FreeSpaceModel","TwoRayGroundModel","RiceModel","RayleighModel","NakagamiModel","LogNormalShadowingModel") = default("FreeSpaceModel");
         @display("i=misc/sun");

@@ -73,7 +73,7 @@ network Highway
             @display("p=519,206");
         }
         gNodeB1: gNodeB {
-            @display("p=519.572145,19.11698;is=n");
+            @display("p=525,25;is=n");
         }
         //# submodule vector to store all cars - will be filled dynamically during simulations
         car[0]: NRCar {

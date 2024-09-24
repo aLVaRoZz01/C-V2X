@@ -3,11 +3,188 @@
   <vType id="car" accel="0.8" decel="4.5" sigma="1.0" length="4" minGap="2.5" maxSpeed="0.00000000000000000000000000000000000000000001" guiShape="passenger" />
   
   <!-- Define la ruta del vehículo con la arista inicial -->
-  <route id="1" edges="500to450"/>
+  
+  <!-- para 100m   -->
+  <route id="1" edges="100to90"/>
+  <route id="2" edges="100to110"/>
+  <route id="3" edges="-90to-50"/>
+  <route id="4" edges="-110to-140"/>
+  
+  
+  <route id="5" edges="90to100"/>
+  <route id="6" edges="110to100"/>
+  
+  <route id="24" edges="A100toA90"/>
+  <route id="25" edges="A100toA110"/>
+  <route id="26" edges="A110toA120"/>
+  <route id="27" edges="A90toA80"/>
+  <route id="28" edges="A80toA90"/>
+  <route id="29" edges="A120toA110"/>
+  
+  <route id="30" edges="-110to-100"/>
+  <route id="31" edges="-100to-110"/>
+  <route id="32" edges="-100to-90"/>
+  <route id="33" edges="-90to-100"/>
+  
+  <route id="34" edges="90to50"/>
+  <route id="35" edges="110to140"/>
+  
+  
+  <!-- para 150m -->
+  
+  <route id="58" edges="140to110"/>
+  <route id="59" edges="150to140"/>
+  <route id="60" edges="160to150"/>
+  
+  <route id="61" edges="160to190"/>
+  <route id="62" edges="150to160"/>
+  <route id="63" edges="140to150"/>
+  
+  <route id="64" edges="A140toA120"/>
+  <route id="65" edges="A150toA140"/>
+  <route id="66" edges="A160toA150"/>
+  
+  <route id="67" edges="A160toA190"/>
+  <route id="68" edges="A150toA160"/>
+  <route id="69" edges="A140toA150"/>
+  
+  <route id="70" edges="-140to-110"/>
+  <route id="71" edges="-150to-140"/>
+  <route id="72" edges="-160to-150"/>
+  
+  <route id="73" edges="-160to-190"/>
+  <route id="74" edges="-150to-160"/>
+  <route id="75" edges="-140to-150"/>
+  
+  
+  
+  <!-- para 200m -->
+  
+  
+  <route id="38" edges="-200to-190"/>
+  <route id="39" edges="-200to-210"/>
+  <route id="40" edges="200to190"/>
+  <route id="41" edges="200to210"/>
+  
+  <route id="49" edges="-190to-200"/>
+  <route id="50" edges="-210to-200"/>
+  <route id="51" edges="190to200"/>
+  <route id="52" edges="210to200"/>
+  
+  <route id="44" edges="A210toA300"/>
+  <route id="45" edges="A190toA160"/>
+  
+  <route id="36" edges="A210toA205"/>
+  <route id="37" edges="A205toA200"/>
+  <route id="42" edges="A200toA195"/>
+  <route id="43" edges="A195toA190"/>
+  
+  <route id="46" edges="A190toA195"/>
+
+  <route id="48" edges="A200toA205"/>
+
+  <route id="53" edges="-190to-160"/>
+  <route id="54" edges="190to160"/>
+  <route id="55" edges="210to250"/>
+  <route id="56" edges="-210to-250"/>
+  
+  
+  -->
+  
+  
+  
+  
+  
+  
+  <!-- para 30m -->
+  <route id="7" edges="30to20"/>
+  <route id="8" edges="30to40"/>
+  <route id="9" edges="-30to-20"/>
+  <route id="10" edges="-30to-40"/>
+  
+  <route id="11" edges="20to30"/>
+  <route id="12" edges="-20to-30"/>
+  <route id="13" edges="40to30"/>
+  <route id="14" edges="-40to-30"/>
+  
+  <route id="15" edges="A30toA20"/>
+  <route id="16" edges="A20toA30"/>
+  <!--<route id="17" edges="A30toA40"/>
+  <route id="18" edges="A40toA30"/>-->
+  
+  <route id="19" edges="-40to-50"/>
+  <route id="20" edges="40to50"/>
+  <route id="21" edges="A20toA10"/>
+  <route id="22" edges="20to10"/>
+  <route id="23" edges="-20to-10"/>
+  
   
   <!-- Define el vehículo y su ruta -->
-  <vehicle id="0" type="car" route="1" depart="1">
-    <!-- Agrega una parada de tiempo infinita en la arista inicial para que el vehículo permanezca estacionado -->
-    <stop edge="500to450" laneIndex="0" position="2500" duration="1000000000"/>
-  </vehicle>
+  <!-- <vehicle id="0" type="car" route="1" depart="1"></vehicle> -->
+  <!-- <vehicle id="1" type="car" route="2" depart="1"></vehicle> -->
+  <!-- <vehicle id="2" type="car" route="3" depart="1"></vehicle> -->
+  <!-- <vehicle id="3" type="car" route="4" depart="1"></vehicle> -->
+  <!-- <vehicle id="4" type="car" route="5" depart="1"></vehicle> -->
+  
+  
+  <!--
+  <vehicle id="0" type="car" route="7" depart="1"></vehicle>
+  <vehicle id="1" type="car" route="8" depart="1"></vehicle>
+  <vehicle id="2" type="car" route="9" depart="1"></vehicle>
+  <vehicle id="3" type="car" route="10" depart="1"></vehicle>
+  <vehicle id="4" type="car" route="11" depart="1"></vehicle>
+  <vehicle id="5" type="car" route="12" depart="1"></vehicle>
+  <vehicle id="6" type="car" route="13" depart="1"></vehicle>
+  <vehicle id="7" type="car" route="14" depart="1"></vehicle>
+  <vehicle id="8" type="car" route="15" depart="1"></vehicle>
+  <vehicle id="9" type="car" route="16" depart="1"></vehicle>
+  <vehicle id="10" type="car" route="17" depart="1"></vehicle>
+  <vehicle id="11" type="car" route="18" depart="1"></vehicle>
+  
+  <vehicle id="12" type="car" route="19" depart="1"></vehicle>
+  <vehicle id="13" type="car" route="20" depart="1"></vehicle>
+  <vehicle id="14" type="car" route="21" depart="1"></vehicle>
+  <vehicle id="15" type="car" route="22" depart="1"></vehicle>
+  <vehicle id="16" type="car" route="23" depart="1"></vehicle>
+  -->
+  
+  <!--  
+  <vehicle id="0" type="car" route="1" depart="1"></vehicle>
+  <vehicle id="1" type="car" route="2" depart="1"></vehicle>
+  <vehicle id="2" type="car" route="3" depart="1"></vehicle>
+  <vehicle id="3" type="car" route="4" depart="1"></vehicle>
+  <vehicle id="4" type="car" route="5" depart="1"></vehicle>
+  <vehicle id="5" type="car" route="6" depart="1"></vehicle>
+  <vehicle id="6" type="car" route="24" depart="1"></vehicle>
+  <vehicle id="7" type="car" route="25" depart="1"></vehicle>
+  <vehicle id="8" type="car" route="26" depart="1"></vehicle>
+  <vehicle id="9" type="car" route="27" depart="1"></vehicle>
+  <vehicle id="10" type="car" route="28" depart="1"></vehicle>
+  <vehicle id="11" type="car" route="29" depart="1"></vehicle>
+  <vehicle id="12" type="car" route="30" depart="1"></vehicle>
+  <vehicle id="13" type="car" route="31" depart="1"></vehicle>
+  <vehicle id="14" type="car" route="32" depart="1"></vehicle>
+  <vehicle id="15" type="car" route="33" depart="1"></vehicle>
+  <vehicle id="16" type="car" route="34" depart="1"></vehicle>
+  <vehicle id="17" type="car" route="35" depart="1"></vehicle>
+  -->
+  
+  <vehicle id="0" type="car" route="58" depart="1"></vehicle>
+  <vehicle id="1" type="car" route="59" depart="1"></vehicle>
+  <vehicle id="2" type="car" route="60" depart="1"></vehicle>
+  <vehicle id="3" type="car" route="61" depart="1"></vehicle>
+  <vehicle id="4" type="car" route="62" depart="1"></vehicle>
+  <vehicle id="5" type="car" route="63" depart="1"></vehicle>
+  <vehicle id="6" type="car" route="64" depart="1"></vehicle> 
+  <vehicle id="7" type="car" route="65" depart="1"></vehicle> 
+  <vehicle id="8" type="car" route="66" depart="1"></vehicle> 
+  <vehicle id="9" type="car" route="67" depart="1"></vehicle>   
+  <vehicle id="10" type="car" route="68" depart="1"></vehicle> 
+  <vehicle id="11" type="car" route="69" depart="1"></vehicle> 
+  <vehicle id="12" type="car" route="70" depart="1"></vehicle> 
+  <vehicle id="13" type="car" route="71" depart="1"></vehicle>  
+  <vehicle id="14" type="car" route="72" depart="1"></vehicle>  
+  <vehicle id="15" type="car" route="73" depart="1"></vehicle>
+  <vehicle id="16" type="car" route="74" depart="1"></vehicle>  
+  <vehicle id="17" type="car" route="75" depart="1"></vehicle>     
 </routes>

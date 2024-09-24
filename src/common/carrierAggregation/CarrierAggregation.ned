@@ -28,13 +28,13 @@ simple ComponentCarrier
     @class("ComponentCarrier");
     
     // Carrier Frequency (GHz) -->
-    double carrierFrequency @unit("GHz")= default(2GHz);
+    double carrierFrequency @unit("GHz")= default(2GHz); //antes 2 arosado
     
     // number of bands for this channel
     int numBands = default(6);
     
     // numerology index
-    int numerologyIndex = default(0);
+    int numerologyIndex = default(2);   //antes 0  arosado
     
     // TDD slot format index
     // values in the range [0,61], according to 3GPP TS38.213
