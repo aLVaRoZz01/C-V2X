@@ -1,0 +1,7 @@
+<launch>
+  <copy file="turin.net.xml"/>
+  <copy file="turin.rou.xml"/>
+  <copy file="turin.poly.xml"/>
+  <copy file="turin.sumocfg" type="config"/>
+  <copy file="gui-settings.xml"/>
+</launch>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2024-11-05 11:18:01 by Eclipse SUMO duarouter Version 1.12.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="road.net.xml"/>
+        <route-files value="road.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="generated.rou.xml"/>
+        <alternatives-output value="generated.rou.alt.xml"/>
+    </output>
+
+    <report>
+        <ignore-errors value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="0" depart="0.00">
+        <route edges="10to20 20to30 30to40 40to50 50to90 90to100 100to110 110to140 140to150 150to160 160to190 190to200 200to210 210to250 250to300"/>
+    </vehicle>
+    <vehicle id="1" depart="1.00">
+        <route edges="90to50 50to40 40to30 30to20 20to10 10to0 0to-10 -10to-20 -20to-30 -30to-40 -40to-50 -50to-90"/>
+    </vehicle>
+</routes>

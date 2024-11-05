@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2024-10-29 10:09:03 by Eclipse SUMO duarouter Version 1.12.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="turin.net.xml"/>
+        <route-files value="turin.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="turin.trips.xml.tmp"/>
+        <write-trips value="true"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="10"/>
+    </time>
+
+    <report>
+        <no-warnings value="true"/>
+        <ignore-errors value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <trip id="0" depart="0.00" from="236557899#1" to="-112568282#13"/>
+    <trip id="1" depart="1.00" from="111609212" to="102597341#2"/>
+    <trip id="2" depart="2.00" from="37640550#13" to="293287047#7"/>
+    <trip id="3" depart="3.00" from="646315021#1" to="-135733957#0"/>
+    <trip id="4" depart="4.00" from="1307229612#1" to="-1152789794"/>
+    <trip id="5" depart="5.00" from="-93918572#4" to="133198379#1"/>
+    <trip id="6" depart="6.00" from="-1128425277" to="-765642597"/>
+    <trip id="7" depart="7.00" from="257025801#1" to="149023975#0"/>
+    <trip id="8" depart="8.00" from="100107059#1" to="173211616"/>
+    <trip id="9" depart="9.00" from="435787898#6" to="-105601671#2"/>
+</routes>

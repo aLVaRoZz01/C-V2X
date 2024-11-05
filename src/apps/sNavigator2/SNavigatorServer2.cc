@@ -261,7 +261,7 @@ void SNavigatorServer2::sendsNavigatorPacket()
                     archivo.close();
                 }
 
-            std::string copiarNet = "cp " + mapName + ".net.xml tmp.net.xml";
+            std::string copiarNet = "cp " + mapName + " tmp.net.xml";
             int stat0 = system(copiarNet.c_str());
 
             removeElement(tramosEvitar, posIni);

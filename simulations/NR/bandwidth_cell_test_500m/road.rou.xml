@@ -186,5 +186,5 @@
   <vehicle id="14" type="car" route="72" depart="1"></vehicle>  
   <vehicle id="15" type="car" route="73" depart="1"></vehicle>
   <vehicle id="16" type="car" route="74" depart="1"></vehicle>  
-  <vehicle id="17" type="car" route="75" depart="1"></vehicle>     
+  <vehicle id="17" type="car" route="75" depart="1"></vehicle>
 </routes>
