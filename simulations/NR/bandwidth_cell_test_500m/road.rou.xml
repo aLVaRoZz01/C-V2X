@@ -101,7 +101,6 @@
   <route id="8" edges="30to40"/>
   <route id="9" edges="-30to-20"/>
   <route id="10" edges="-30to-40"/>
-  
   <route id="11" edges="20to30"/>
   <route id="12" edges="-20to-30"/>
   <route id="13" edges="40to30"/>
@@ -169,6 +168,7 @@
   <vehicle id="17" type="car" route="35" depart="1"></vehicle>
   -->
   
+  <!--  
   <vehicle id="0" type="car" route="58" depart="1"></vehicle>
   <vehicle id="1" type="car" route="59" depart="1"></vehicle>
   <vehicle id="2" type="car" route="60" depart="1"></vehicle>
@@ -187,4 +187,28 @@
   <vehicle id="15" type="car" route="73" depart="1"></vehicle>
   <vehicle id="16" type="car" route="74" depart="1"></vehicle>  
   <vehicle id="17" type="car" route="75" depart="1"></vehicle>
+  -->
+  
+  <vehicle id="0" type="car" route="38" depart="1"></vehicle>
+  <vehicle id="1" type="car" route="39" depart="1"></vehicle>
+  <vehicle id="2" type="car" route="40" depart="1"></vehicle>
+  <vehicle id="3" type="car" route="41" depart="1"></vehicle>
+  <vehicle id="4" type="car" route="49" depart="1"></vehicle>
+  <vehicle id="5" type="car" route="50" depart="1"></vehicle>
+  <vehicle id="6" type="car" route="51" depart="1"></vehicle> 
+  <vehicle id="7" type="car" route="52" depart="1"></vehicle> 
+  <vehicle id="8" type="car" route="44" depart="1"></vehicle> 
+  <vehicle id="9" type="car" route="45" depart="1"></vehicle>   
+  <vehicle id="10" type="car" route="36" depart="1"></vehicle> 
+  <vehicle id="11" type="car" route="37" depart="1"></vehicle> 
+  <vehicle id="12" type="car" route="42" depart="1"></vehicle> 
+  <vehicle id="13" type="car" route="43" depart="1"></vehicle>  
+  <vehicle id="14" type="car" route="46" depart="1"></vehicle>  
+  <vehicle id="15" type="car" route="48" depart="1"></vehicle>
+  <vehicle id="16" type="car" route="74" depart="1"></vehicle>  
+  <vehicle id="17" type="car" route="53" depart="1"></vehicle>
+  <vehicle id="18" type="car" route="54" depart="1"></vehicle>
+  <vehicle id="19" type="car" route="55" depart="1"></vehicle>  
+  <vehicle id="20" type="car" route="56" depart="1"></vehicle>
+  
 </routes>

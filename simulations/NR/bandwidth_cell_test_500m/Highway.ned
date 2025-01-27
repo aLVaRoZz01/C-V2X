@@ -33,7 +33,7 @@ network Highway
         double playgroundSizeX @unit(m); // x size of the area the nodes are in (in meters)
         double playgroundSizeY @unit(m); // y size of the area the nodes are in (in meters)
         double playgroundSizeZ @unit(m); // z size of the area the nodes are in (in meters)
-        @display("bgb=1525,487,,,0");
+        @display("bgb=1500,1500,,,0");
 
     submodules:
 
@@ -73,7 +73,7 @@ network Highway
             @display("p=519,206");
         }
         gNodeB1: gNodeB {
-            @display("p=525,25;is=n");
+            @display("p=474.6154,472.3077;is=n");
         }
         //# submodule vector to store all cars - will be filled dynamically during simulations
         car[0]: NRCar {

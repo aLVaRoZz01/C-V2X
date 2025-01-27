@@ -12,6 +12,7 @@
 #include <cmath>
 #include <inet/common/TimeTag_m.h>
 #include "CbrSender.h"
+#include <set>
 
 #define round(x) floor((x) + 0.5)
 
@@ -22,6 +23,8 @@ using namespace std;
 simsignal_t CbrSender::cbrGeneratedThroughtputSignal_ = registerSignal("cbrGeneratedThroughtputSignal");
 simsignal_t CbrSender::cbrGeneratedBytesSignal_ = registerSignal("cbrGeneratedBytesSignal");
 simsignal_t CbrSender::cbrSentPktSignal_ = registerSignal("cbrSentPktSignal");
+
+std::set<std::string> CbrSender::processedVehicles;
 
 CbrSender::CbrSender()
 {
@@ -68,6 +71,55 @@ void CbrSender::initialize(int stage)
         initTraffic_ = new cMessage("initTraffic");
         initTraffic();
     }
+
+    try{
+        mobility = VeinsInetMobilityAccess().get(getParentModule());
+        traci = mobility->getCommandInterface();
+        traciVehicle = mobility->getVehicleCommandInterface();
+        carId=mobility->getExternalId();
+
+        std::string road = traciVehicle->getRoadId().c_str();
+        std::string vehID = carId.c_str();
+
+        cModule *currentModule = getParentModule();
+        std::string moduleName = currentModule->getFullPath();
+        size_t lastDotPos = moduleName.find_last_of('.');
+        std::string carPart = (lastDotPos != std::string::npos)
+                                  ? moduleName.substr(lastDotPos + 1)
+                                  : moduleName;
+
+
+        if (processedVehicles.empty())
+        {
+            std::string filePath = "/home/alvaro/simu5g-workspace/simu5G/simulations/NR/cars_turin/results/posiciones.txt";
+            if (std::remove(filePath.c_str()) == 0)
+            {
+                EV << "Archivo borrado porque processedVehicles estaba vacío." << endl;
+            }
+            else
+            {
+                EV << "El archivo no existía o no se pudo borrar." << endl;
+            }
+        }
+
+        if (processedVehicles.find(vehID) == processedVehicles.end())
+        {
+            processedVehicles.insert(vehID);
+
+            std::ofstream outputFile;
+            outputFile.open("/home/alvaro/simu5g-workspace/simu5G/simulations/NR/cars_turin/results/posiciones.txt", std::ios::app);
+            if (outputFile.is_open())
+            {
+                outputFile << "OMNET-" << carPart << " - SUMO-car[" << vehID <<"]: " << road << "\n";
+                outputFile.close();
+            }
+            else
+            {
+                EV << "Error al abrir el archivo para escribir las posiciones." << endl;
+            }
+        }
+    }
+    catch(const std::runtime_error &e){}
 }
 
 void CbrSender::handleMessage(cMessage *msg)

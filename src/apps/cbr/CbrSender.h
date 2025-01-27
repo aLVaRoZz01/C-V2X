@@ -19,6 +19,18 @@
 #include <inet/transportlayer/contract/udp/UdpSocket.h>
 #include <inet/networklayer/common/L3AddressResolver.h>
 
+
+
+#include "veins/modules/mobility/traci/TraCIMobility.h"
+#include "veins/modules/mobility/traci/TraCICommandInterface.h"
+#include "veins_inet/VeinsInetMobility.h"
+
+using namespace std;
+using namespace inet;
+using namespace veins;
+
+using veins::VeinsInetMobility;
+
 #include "CbrPacket_m.h"
 
 class CbrSender : public omnetpp::cSimpleModule
@@ -58,6 +70,16 @@ class CbrSender : public omnetpp::cSimpleModule
   public:
     ~CbrSender();
     CbrSender();
+
+
+  protected:
+      /* pointers ill be set when used with TraCIMobility */
+      VeinsInetMobility* mobility;
+      TraCICommandInterface* traci;
+      TraCICommandInterface::Vehicle* traciVehicle;
+      std::string carId; // this vehicle
+
+      static std::set<std::string> processedVehicles;
 
   protected:
 
